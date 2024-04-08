@@ -1,4 +1,5 @@
 using AzureAppINTEX.Data;
+using AzureAppINTEX.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +11,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddControllersWithViews();
 
 //GoogleSetup
@@ -40,6 +43,22 @@ services.AddAuthentication()
 });
 
 
+// Assuming EFStoreRepository and EFOrderRepository implement IStoreRepository and IOrderRepository, respectively
+builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
+builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
+
+// Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
+// Scoped service for the Cart
+builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+// For server-side Blazor (optional based on your application's needs)
+builder.Services.AddServerSideBlazor();
+
+
 
 var app = builder.Build();
 
@@ -57,6 +76,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+
+// Enable session before routing
+app.UseSession();
 
 app.UseRouting();
 
