@@ -5,6 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+// Configure Azure App Configuration so connection string can be hidden
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    var settings = config.Build();
+    var appConfigConnectionString = settings["ConnectionStrings:AppConfig"];
+    if (!string.IsNullOrEmpty(appConfigConnectionString))
+    {
+        config.AddAzureAppConfiguration(appConfigConnectionString);
+    }
+});
+
+
+
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -41,6 +57,8 @@ services.AddAuthentication()
     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
     googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
 });
+
+
 
 
 // Assuming EFStoreRepository and EFOrderRepository implement IStoreRepository and IOrderRepository, respectively
