@@ -15,6 +15,177 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Chapter 07\SportsSln\.vs\SportsSln\v17\DocumentLayout.json" />
+    <Content Include="Chapter 10\End of Chapter\SportsSln\.vs\SportsSln\v17\DocumentLayout.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Chapter 07\SportsSln\.vs\ProjectEvaluation\sportssln.metadata.v7.bin" />
+    <None Include="Chapter 07\SportsSln\.vs\ProjectEvaluation\sportssln.projects.v7.bin" />
+    <None Include="Chapter 07\SportsSln\.vs\SportsSln\DesignTimeBuild\.dtbcache.v2" />
+    <None Include="Chapter 07\SportsSln\.vs\SportsSln\FileContentIndex\ceb25532-6f7f-4a89-a605-02753df43bb7.vsidx" />
+    <None Include="Chapter 07\SportsSln\.vs\SportsSln\v17\.futdcache.v2" />
+    <None Include="Chapter 07\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 07\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 07\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 07\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 07\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 07\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 07\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 07\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 08\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 08\End of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 09\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Pages\Completed.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\Order\Checkout.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\CartSummary\Default.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 09\End of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Pages\Completed.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\Order\Checkout.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\Components\CartSummary\Default.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 10\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\.vs\ProjectEvaluation\sportssln.metadata.v7.bin" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\.vs\ProjectEvaluation\sportssln.projects.v7.bin" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\.vs\SportsSln\DesignTimeBuild\.dtbcache.v2" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\.vs\SportsSln\FileContentIndex\3b85bb4f-5df5-4836-b38d-609f520c1052.vsidx" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\.vs\SportsSln\FileContentIndex\f63fc630-3ed6-4ffc-9da0-5772e296b318.vsidx" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\.vs\SportsSln\v17\.futdcache.v2" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\AdminLayout.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\Details.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\Editor.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\Index.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\Orders.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\OrderTable.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\Products.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\Routed.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Admin\_Imports.razor" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\Completed.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\Order\Checkout.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\CartSummary\Default.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 10\End of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\AdminLayout.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\Details.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\Editor.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\Index.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\Orders.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\OrderTable.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\Products.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\Routed.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Admin\_Imports.razor" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\Completed.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\Order\Checkout.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\Components\CartSummary\Default.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 11\Beginning of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsSln.sln" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore.Tests\SportsStore.Tests.csproj" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\AdminLayout.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\Details.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\Editor.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\IdentityUsers.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\Index.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\Orders.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\OrderTable.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\Products.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\Routed.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Admin\_Imports.razor" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Cart.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Completed.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\Error.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\_CartLayout.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\_ViewImports.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Pages\_ViewStart.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\SportsStore.csproj" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Account\Login.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Home\Index.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Order\Checkout.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\CartSummary\Default.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Shared\Components\NavigationMenu\Default.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Shared\ProductSummary.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\Shared\_Layout.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\_ViewImports.cshtml" />
+    <None Include="Chapter 11\End of Chapter\SportsSln\SportsStore\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
@@ -30,6 +201,21 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Chapter 07\SportsSln\SportsStore.Tests\obj\Debug\net7.0\refint\" />
+    <Folder Include="Chapter 07\SportsSln\SportsStore.Tests\obj\Debug\net7.0\ref\" />
+    <Folder Include="Chapter 07\SportsSln\SportsStore\bin\Debug\net7.0\" />
+    <Folder Include="Chapter 07\SportsSln\SportsStore\obj\Debug\net7.0\refint\" />
+    <Folder Include="Chapter 07\SportsSln\SportsStore\obj\Debug\net7.0\ref\" />
+    <Folder Include="Chapter 07\SportsSln\SportsStore\obj\Debug\net7.0\staticwebassets\" />
+    <Folder Include="Chapter 10\End of Chapter\SportsSln\SportsStore.Tests\obj\Debug\net7.0\refint\" />
+    <Folder Include="Chapter 10\End of Chapter\SportsSln\SportsStore.Tests\obj\Debug\net7.0\ref\" />
+    <Folder Include="Chapter 10\End of Chapter\SportsSln\SportsStore\bin\Debug\net7.0\" />
+    <Folder Include="Chapter 10\End of Chapter\SportsSln\SportsStore\obj\Debug\net7.0\refint\" />
+    <Folder Include="Chapter 10\End of Chapter\SportsSln\SportsStore\obj\Debug\net7.0\ref\" />
+    <Folder Include="Chapter 10\End of Chapter\SportsSln\SportsStore\obj\Debug\net7.0\staticwebassets\" />
   </ItemGroup>
 
 </Project>
