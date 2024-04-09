@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureAppINTEX.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240408234546_fixplz")]
-    partial class fixplz
+    [Migration("20240409182441_newInitial")]
+    partial class newInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,8 @@ namespace AzureAppINTEX.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Age")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Age")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
@@ -45,6 +45,9 @@ namespace AzureAppINTEX.Migrations
 
                     b.Property<string>("CountryOfResidence")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -116,7 +119,7 @@ namespace AzureAppINTEX.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LineItemID"));
 
-                    b.Property<int>("OrderTransactionID")
+                    b.Property<int?>("OrderTransactionID")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductID")
@@ -157,11 +160,10 @@ namespace AzureAppINTEX.Migrations
                     b.Property<string>("CountryOfTransaction")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
+                    b.Property<string>("CustomerID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DayOfWeek")
@@ -170,14 +172,14 @@ namespace AzureAppINTEX.Migrations
                     b.Property<string>("EntryMode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Fraud")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Fraud")
+                        .HasColumnType("int");
 
                     b.Property<string>("ShippingAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
+                    b.Property<int?>("Time")
+                        .HasColumnType("int");
 
                     b.Property<string>("TypeOfCard")
                         .HasColumnType("nvarchar(max)");
@@ -187,7 +189,7 @@ namespace AzureAppINTEX.Migrations
 
                     b.HasKey("TransactionID");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
                 });
@@ -428,9 +430,7 @@ namespace AzureAppINTEX.Migrations
                 {
                     b.HasOne("AzureAppINTEX.Models.Order", "Order")
                         .WithMany("LineItems")
-                        .HasForeignKey("OrderTransactionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderTransactionID");
 
                     b.HasOne("AzureAppINTEX.Models.Product", "Product")
                         .WithMany("LineItems")
@@ -447,9 +447,7 @@ namespace AzureAppINTEX.Migrations
                 {
                     b.HasOne("AzureAppINTEX.Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerID");
 
                     b.Navigation("Customer");
                 });

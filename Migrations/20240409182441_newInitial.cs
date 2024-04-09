@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AzureAppINTEX.Migrations
 {
     /// <inheritdoc />
-    public partial class newInitialYay : Migration
+    public partial class newInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,12 +30,13 @@ namespace AzureAppINTEX.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CountryOfResidence = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: true),
+                    Age = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -189,10 +190,10 @@ namespace AzureAppINTEX.Migrations
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DayOfWeek = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Time = table.Column<int>(type: "int", nullable: true),
                     EntryMode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TypeOfTransaction = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -200,17 +201,16 @@ namespace AzureAppINTEX.Migrations
                     ShippingAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeOfCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Fraud = table.Column<bool>(type: "bit", nullable: true)
+                    Fraud = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.TransactionID);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Orders_AspNetUsers_CustomerID",
+                        column: x => x.CustomerID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -259,7 +259,7 @@ namespace AzureAppINTEX.Migrations
                     ProductID = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: true),
-                    OrderTransactionID = table.Column<int>(type: "int", nullable: false)
+                    OrderTransactionID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,8 +268,7 @@ namespace AzureAppINTEX.Migrations
                         name: "FK_LineItems_Orders_OrderTransactionID",
                         column: x => x.OrderTransactionID,
                         principalTable: "Orders",
-                        principalColumn: "TransactionID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "TransactionID");
                     table.ForeignKey(
                         name: "FK_LineItems_Products_ProductID",
                         column: x => x.ProductID,
@@ -328,9 +327,9 @@ namespace AzureAppINTEX.Migrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerId",
+                name: "IX_Orders_CustomerID",
                 table: "Orders",
-                column: "CustomerId");
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recommendations_CustomerId",
