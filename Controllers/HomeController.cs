@@ -36,19 +36,19 @@ namespace AzureAppINTEX.Controllers
 
             return View(viewModel);
         }
-        public ViewResult ProductsList(string category, int productPage = 1)
+        public ViewResult ProductsList(string category, int productPage = 1, int pageSize = 5) // Default to 5
         {
             var viewModel = new ProductsListViewModel
             {
                 Products = _repository.Products
                     .Where(p => category == null || p.Category == category)
                     .OrderBy(p => p.ProductID)
-                    .Skip((productPage - 1) * PageSize)
-                    .Take(PageSize),
+                    .Skip((productPage - 1) * pageSize)
+                    .Take(pageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,
-                    ItemsPerPage = PageSize,
+                    ItemsPerPage = pageSize,
                     TotalItems = category == null ?
                         _repository.Products.Count() :
                         _repository.Products.Count(e => e.Category == category)
@@ -56,8 +56,9 @@ namespace AzureAppINTEX.Controllers
                 CurrentCategory = category
             };
 
-            return View("ProductsList", viewModel); // Specify the view name explicitly
+            return View(viewModel);
         }
+
 
     }
 }
