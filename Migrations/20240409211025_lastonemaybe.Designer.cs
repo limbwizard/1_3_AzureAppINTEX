@@ -4,6 +4,7 @@ using AzureAppINTEX.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureAppINTEX.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409211025_lastonemaybe")]
+    partial class lastonemaybe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,6 +119,9 @@ namespace AzureAppINTEX.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LineItemID"));
 
+                    b.Property<int?>("OrderTransactionID")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
@@ -130,9 +136,9 @@ namespace AzureAppINTEX.Migrations
 
                     b.HasKey("LineItemID");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("OrderTransactionID");
 
-                    b.HasIndex("TransactionID");
+                    b.HasIndex("ProductID");
 
                     b.ToTable("LineItems");
                 });
@@ -241,6 +247,7 @@ namespace AzureAppINTEX.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecommendationId"));
 
                     b.Property<string>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProductId")
@@ -424,15 +431,13 @@ namespace AzureAppINTEX.Migrations
 
             modelBuilder.Entity("AzureAppINTEX.Models.LineItem", b =>
                 {
+                    b.HasOne("AzureAppINTEX.Models.Order", "Order")
+                        .WithMany("LineItems")
+                        .HasForeignKey("OrderTransactionID");
+
                     b.HasOne("AzureAppINTEX.Models.Product", "Product")
                         .WithMany("LineItems")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AzureAppINTEX.Models.Order", "Order")
-                        .WithMany("LineItems")
-                        .HasForeignKey("TransactionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -454,7 +459,9 @@ namespace AzureAppINTEX.Migrations
                 {
                     b.HasOne("AzureAppINTEX.Models.Customer", "Customer")
                         .WithMany("Recommendations")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AzureAppINTEX.Models.Product", "Product")
                         .WithMany("Recommendations")

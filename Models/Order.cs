@@ -8,8 +8,8 @@ namespace AzureAppINTEX.Models
         [Key]
         public int TransactionID { get; set; }
 
-        [ForeignKey("Customer")]
-        public string? CustomerID { get; set; }
+        [ForeignKey("UserId")]
+        public string? UserId { get; set; }
         public DateTime? Date { get; set; }
         public string? DayOfWeek { get; set; }
         public int? Time { get; set; }

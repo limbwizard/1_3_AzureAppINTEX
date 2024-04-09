@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AzureAppINTEX.Models
 {
@@ -6,6 +7,7 @@ namespace AzureAppINTEX.Models
     {
         [Key]
         public int LineItemID { get; set; }
+        [ForeignKey("Order")]
         public int TransactionID { get; set; }
         public int ProductID { get; set; }
         public int? Quantity { get; set; }
