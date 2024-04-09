@@ -1,0 +1,27 @@
+﻿@model AzureAppINTEX.Models.ViewModels.ProductsListViewModel
+
+@{
+    ViewData["Title"] = "Products List";
+}
+
+<h2>Products List</h2>
+
+<div class="row">
+    @foreach (var item in Model.Products)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.ImgLink" alt="@item.Name">
+                <div class="card-body">
+                    <p class="card-text">@item.Name - @Html.DisplayFor(modelItem => item.Price)</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
