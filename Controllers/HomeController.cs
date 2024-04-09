@@ -59,6 +59,5 @@ namespace AzureAppINTEX.Controllers
             return View(viewModel);
         }
 
-
     }
 }
