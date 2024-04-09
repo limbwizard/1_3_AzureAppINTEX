@@ -59,5 +59,20 @@ namespace AzureAppINTEX.Controllers
             return View("ProductsList", viewModel); // Specify the view name explicitly
         }
 
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult MyOrders() 
+        {
+            return View();
+        }
+
     }
 }
