@@ -20,11 +20,12 @@
 </table>
 
 <div class="button-container">
-    <a asp-action="Index" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-primary">
+    <a asp-controller="Home" asp-action="ProductsList" class="btn btn-primary">
         Continue Shopping
     </a>
-    <button id="loginBtn" class="btn btn-primary">@(Model.IsLoggedIn ? "Submit" : "Log in")</button>
+    <button id="loginBtn" class="btn btn-primary">@(Model.IsLoggedIn ? "Check out" : "Log in")</button>
 </div>
+
 
 @section Scripts {
     <script>
