@@ -1,36 +1,9 @@
-﻿@using Microsoft.AspNetCore.Http.Features
-
-@{
-    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-    var showBanner = !consentFeature?.CanTrack ?? false;
-    var cookieString = Context.Request.Headers["Cookie"];
-    if (string.IsNullOrEmpty(cookieString))
-    {
-        showBanner = true;
-    }
-}
-
-@if (showBanner)
+﻿@if (Context.Request.Cookies["userConsent"] == null)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        We use cookies to enhance your experience. By continuing to use this site, you agree to our use of cookies.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="cookieconsent_status=allow; expires=@(DateTime.Now.AddYears(1).ToString("R"))">
-            <span aria-hidden="true">Accept</span>
+    <div id="cookieConsent" class="alert alert-info" role="alert">
+        We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.
+        <button id="acceptCookieConsent" type="button" class="btn btn-primary">
+            Accept
         </button>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-            if (button) {
-                button.addEventListener("click", function (event) {
-                    document.cookie = button.dataset.cookieString;
-                    var consentElement = document.querySelector("#cookieConsent");
-                    if (consentElement) {
-                        consentElement.style.display = 'none';
-                    }
-                }, false);
-            }
-        });
-    </script>
-
 }

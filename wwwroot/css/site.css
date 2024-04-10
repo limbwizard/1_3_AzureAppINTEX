@@ -20,3 +20,24 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#cookieConsent {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(52, 58, 64, 0.9); /* Dark background */
+    color: white; /* White text */
+    text-align: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+#cookieConsent button {
+    margin-top: 10px;
+    color: #333;
+    background-color: #ffc107; /* Yellow button */
+    border: none;
+    border-radius: 5px;
+    padding: 0.375rem 0.75rem;
+    cursor: pointer;
+}
