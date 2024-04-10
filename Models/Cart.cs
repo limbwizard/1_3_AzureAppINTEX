@@ -36,5 +36,7 @@ namespace AzureAppINTEX.Models
             Lines.Sum(e => e.Product.Price * (e.Quantity ?? 0));
 
         public virtual void Clear() => Lines.Clear();
+
+
     }
 }
