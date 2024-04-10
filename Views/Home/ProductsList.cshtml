@@ -9,7 +9,53 @@
     string selected20 = Model.PagingInfo.ItemsPerPage == 20 ? "selected" : "";
 }
 
+@* Existing form and setup here *@
+
 <h2>Products List</h2>
+
+<form asp-action="ProductsList" method="get">
+    <div class="form-group">
+        <label for="primaryColor">Primary Color:</label>
+        <select name="primaryColor" id="primaryColor" onchange="this.form.submit()">
+            <option value="">All Colors</option>
+            @{
+                var selectedPrimaryColor = ViewBag.SelectedPrimaryColor as string;
+                foreach (var color in ViewBag.PrimaryColors as IEnumerable<string>)
+                {
+                    if (color == selectedPrimaryColor)
+                    {
+                        <option value="@color" selected="selected">@color</option>
+                    }
+                    else
+                    {
+                        <option value="@color">@color</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            @{
+                var selectedCategory = ViewBag.SelectedCategory as string;
+                foreach (var cat in ViewBag.Categories as IEnumerable<string>)
+                {
+                    if (cat == selectedCategory)
+                    {
+                        <option value="@cat" selected="selected">@cat</option>
+                    }
+                    else
+                    {
+                        <option value="@cat">@cat</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+</form>
+
 @{
     ViewData["Title"] = "Products List";
     var pageSizeOptions = new List<int> { 5, 10, 20 };
