@@ -2,6 +2,8 @@ using AzureAppINTEX.Data;
 using AzureAppINTEX.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +29,27 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+
+// This version works
+//builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>()
+//    .AddDefaultTokenProviders();
+
+builder.Services.AddDefaultIdentity<Customer>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredLength = 10;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+
+
+
 
 builder.Services.AddControllersWithViews();
 
@@ -100,8 +120,67 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 
+
+// csp security
+app.Use(async (context, next) =>
+{
+    string csp = "default-src 'self'; " +
+                 "img-src 'self' https: data:; " +
+                 // Allow scripts from self, Stripe, jsDelivr, and also allow inline scripts
+                 "script-src 'self' 'unsafe-inline' https://checkout.stripe.com https://cdn.jsdelivr.net; " +
+                 // Allow styles from self and Google Fonts, and allow inline styles
+                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+                 "font-src 'self' https://fonts.gstatic.com; " + // Keep fonts restricted to self and Google Fonts
+                                                                 // Allow frames from self and Stripe
+                 "frame-src 'self' https://checkout.stripe.com; " +
+                 "frame-ancestors 'self'; " +
+                 // Allow connections to self, Stripe API, and loosen restrictions to include all websocket and http connections for development tools
+                 "connect-src 'self' https://api.stripe.com wss: http:; " +
+                 "object-src 'none'; " + // Disallow plugins (Flash, Silverlight, etc.)
+                                         // Keep form actions within the same origin
+                 "form-action 'self'; " +
+                 "media-src 'self'; " + // Restrict media to self to minimize risks
+                 "worker-src 'self'; " + // Allow worker scripts from the same origin only
+                 "report-uri /csp-report;"; // Report CSP violations (ensure you have an endpoint configured to handle these reports)
+
+    context.Response.Headers.Add("Content-Security-Policy", csp); // Apply the CSP
+    await next();
+});
+
+
+
+
+
 // Enable session before routing
 app.UseSession();
+
+
+// COOKIES YUM
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    CheckConsentNeeded = context => true,
+    MinimumSameSitePolicy = SameSiteMode.None,
+    HttpOnly = HttpOnlyPolicy.Always
+});
+
+app.UseStatusCodePages("text/plain", "Status code page, status code: {0}");
+
+app.Use(async (context, next) =>
+{
+    var consentFeature = context.Features.Get<ITrackingConsentFeature>();
+    if (!consentFeature?.CanTrack ?? false)
+    {
+        var cookieString = context.Request.Headers["Cookie"];
+        if (string.IsNullOrEmpty(cookieString))
+        {
+            context.Response.Cookies.Append("cookieconsent_status", "deny");
+        }
+    }
+
+    await next.Invoke();
+});
+
+
 
 app.UseRouting();
 
