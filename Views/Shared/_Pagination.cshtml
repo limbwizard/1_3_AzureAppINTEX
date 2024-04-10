@@ -1,0 +1,14 @@
+﻿@model AzureAppINTEX.Models.ViewModels.PagingInfo
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("ProductsList", new { productPage = i, pageSize = Model.ItemsPerPage, category = ViewBag.CurrentCategory })">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
