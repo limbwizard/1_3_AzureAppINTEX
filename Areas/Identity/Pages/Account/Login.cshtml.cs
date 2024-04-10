@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace AzureAppINTEX.Areas.Identity.Pages.Account
 {
@@ -116,6 +117,8 @@ namespace AzureAppINTEX.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    //added the next line of code because I am trying to fix the login --> submit depending on user being logged in or not in the cart
+                    returnUrl = QueryHelpers.AddQueryString(returnUrl, "loginSuccessful", "true");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

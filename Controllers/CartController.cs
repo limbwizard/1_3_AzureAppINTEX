@@ -15,12 +15,23 @@ public class CartController : Controller
     }
 
     // Displays the current state of the cart.
-    public ViewResult Index(string returnUrl)
+    public IActionResult Index(string returnUrl)
     {
+        bool isLoggedIn = User.Identity.IsAuthenticated;
+        bool loginSuccessful = Request.Query.ContainsKey("loginSuccessful");
+
+        if (loginSuccessful)
+        {
+            // Reload the page to update the view model with the correct login status
+            return RedirectToAction("Index", new { returnUrl });
+        }
+
         return View(new CartIndexViewModel
         {
             Cart = cart,
-            ReturnUrl = returnUrl
+            ReturnUrl = returnUrl,
+            IsLoggedIn = isLoggedIn
+
         });
     }
 
