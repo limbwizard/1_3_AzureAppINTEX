@@ -88,5 +88,19 @@ namespace AzureAppINTEX.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult MyOrders()
+        {
+            return View();
+        }
     }
 }
