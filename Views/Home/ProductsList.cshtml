@@ -99,6 +99,8 @@
                         <form asp-controller="Cart" asp-action="AddToCart" method="post">
                             <input type="hidden" name="productId" value="@item.ProductID" />
                             <input type="hidden" name="quantity" value="1" />
+                            <!-- Correctly include the full URL as the returnUrl -->
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
                             <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </form>
                     </div>
@@ -107,6 +109,8 @@
         </div>
     }
 </div>
+
+
 
 
 

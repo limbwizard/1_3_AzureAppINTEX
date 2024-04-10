@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AzureAppINTEX.Models;
-using AzureAppINTEX.Infrastructure;
 using System.Linq;
+using AzureAppINTEX.ViewModels;
 
 namespace AzureAppINTEX.Controllers
 {
@@ -14,33 +14,35 @@ namespace AzureAppINTEX.Controllers
             repository = repo;
         }
 
-        public RedirectToActionResult AddToCart(int productId, int quantity = 1)
+        public IActionResult AddToCart(int productId, int quantity = 1, string returnUrl = "")
         {
             Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
-
             if (product != null)
             {
                 Cart cart = SessionCart.GetCart(HttpContext.RequestServices);
                 cart.AddItem(product, quantity);
-                HttpContext.Session.SetJson("Cart", cart);
+                // Session update is handled within the SessionCart class
             }
-
-            return RedirectToAction("ProductsList", "Home");
+            // Redirects to the provided returnUrl if not empty, otherwise defaults to the home index.
+            return !string.IsNullOrEmpty(returnUrl) ? Redirect(returnUrl) : RedirectToAction("Index", "Home");
         }
 
-        public RedirectToActionResult RemoveFromCart(int productId)
+        public IActionResult RemoveFromCart(int productId, string returnUrl = "")
         {
             Cart cart = SessionCart.GetCart(HttpContext.RequestServices);
             cart.RemoveItem(productId);
-            HttpContext.Session.SetJson("Cart", cart);
-
-            return RedirectToAction("Index"); // Assumes this is the cart view
+            // Session update is handled within the SessionCart class
+            // Redirects to the cart index, potentially including a returnUrl for further navigation.
+            return RedirectToAction("Index", new { returnUrl });
         }
 
-        public ViewResult Index()
+        public ViewResult Index(string returnUrl)
         {
-            var cart = SessionCart.GetCart(HttpContext.RequestServices);
-            return View(cart);
+            return View(new CartIndexViewModel
+            {
+                Cart = SessionCart.GetCart(HttpContext.RequestServices),
+                ReturnUrl = returnUrl ?? "/"
+            });
         }
     }
 }
