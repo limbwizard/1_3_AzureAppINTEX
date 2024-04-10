@@ -1,6 +1,4 @@
-﻿using AzureAppINTEX.Models;
-
-namespace AzureAppINTEX.ViewModels
+﻿namespace AzureAppINTEX.Models.ViewModels
 {
     public class CartIndexViewModel
     {

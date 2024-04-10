@@ -1,48 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AzureAppINTEX.Models;
-using System.Linq;
-using AzureAppINTEX.ViewModels;
+using AzureAppINTEX.Infrastructure;
+using AzureAppINTEX.Models.ViewModels;
 
-namespace AzureAppINTEX.Controllers
+public class CartController : Controller
 {
-    public class CartController : Controller
+    private readonly IStoreRepository repository;
+    private readonly Cart cart;
+
+    public CartController(IStoreRepository repo, Cart cartService)
     {
-        private IStoreRepository repository;
+        repository = repo;
+        cart = cartService;
+    }
 
-        public CartController(IStoreRepository repo)
+    // Displays the current state of the cart.
+    public ViewResult Index(string returnUrl)
+    {
+        return View(new CartIndexViewModel
         {
-            repository = repo;
-        }
+            Cart = cart,
+            ReturnUrl = returnUrl
+        });
+    }
 
-        public IActionResult AddToCart(int productId, int quantity = 1, string returnUrl = "")
-        {
-            Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
-            if (product != null)
-            {
-                Cart cart = SessionCart.GetCart(HttpContext.RequestServices);
-                cart.AddItem(product, quantity);
-                // Session update is handled within the SessionCart class
-            }
-            // Redirects to the provided returnUrl if not empty, otherwise defaults to the home index.
-            return !string.IsNullOrEmpty(returnUrl) ? Redirect(returnUrl) : RedirectToAction("Index", "Home");
-        }
+    // Adds a product to the cart.
+    public RedirectToActionResult AddToCart(int productId, string returnUrl)
+    {
+        Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
 
-        public IActionResult RemoveFromCart(int productId, string returnUrl = "")
+        if (product != null)
         {
-            Cart cart = SessionCart.GetCart(HttpContext.RequestServices);
-            cart.RemoveItem(productId);
-            // Session update is handled within the SessionCart class
-            // Redirects to the cart index, potentially including a returnUrl for further navigation.
-            return RedirectToAction("Index", new { returnUrl });
+            cart.AddItem(product, 1);
         }
+        return RedirectToAction("Index", new { returnUrl });
+    }
 
-        public ViewResult Index(string returnUrl)
-        {
-            return View(new CartIndexViewModel
-            {
-                Cart = SessionCart.GetCart(HttpContext.RequestServices),
-                ReturnUrl = returnUrl ?? "/"
-            });
-        }
+    // Removes a product from the cart.
+    public RedirectToActionResult RemoveFromCart(int productId, string returnUrl)
+    {
+        cart.RemoveItem(productId);
+        return RedirectToAction("Index", new { returnUrl });
     }
 }

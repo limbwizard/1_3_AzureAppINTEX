@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Azure App Configuration so connection string can be hidden
+// Configure Azure App Configuration
 builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 {
     var settings = config.Build();
@@ -19,26 +19,16 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 });
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<Customer>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = true;
-    options.Password.RequiredLength = 10;
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
+builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
-
-// Setup for external authentication providers
 builder.Services.AddAuthentication()
     .AddMicrosoftAccount(microsoftOptions =>
     {
@@ -51,9 +41,13 @@ builder.Services.AddAuthentication()
         googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
 
-// Session and HttpContextAccessor services
+// IMPORTANT: Session and HttpContextAccessor services
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession();
+builder.Services.AddSession(options => {
+    // Configure session settings if necessary, like timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Important for GDPR
+});
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Scoped service registrations for repositories and Cart
@@ -61,7 +55,6 @@ builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
 builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
 
-// For server-side Blazor (optional based on your application's needs)
 builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();
@@ -80,7 +73,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();
+app.UseSession(); // IMPORTANT: Ensure UseSession is called before UseRouting and UseEndpoints
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
@@ -92,9 +85,7 @@ app.UseCookiePolicy(new CookiePolicyOptions
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
