@@ -85,25 +85,26 @@
 
 
 
-<div class="row">
-    @foreach (var item in Model.Products)
-    {
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.ImgLink" alt="@item.Name">
-                <div class="card-body">
-                    <p class="card-text">
-                        <a asp-controller="Product" asp-action="Item" asp-route-id="@item.ProductID">@item.Name</a> - @Html.DisplayFor(modelItem => item.Price) 
-                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
+@foreach (var item in Model.Products)
+{
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.ImgLink" alt="@item.Name">
+            <div class="card-body">
+                <p class="card-text">
+                    <a asp-controller="Product" asp-action="Item" asp-route-id="@item.ProductID">@item.Name</a> - @Html.DisplayFor(modelItem => item.Price)
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductID" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         </div>
-    }
-</div>
+    </div>
+}
+
 
 @Html.Partial("_Pagination", Model.PagingInfo)

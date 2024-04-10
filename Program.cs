@@ -58,6 +58,10 @@ services.AddAuthentication()
     googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
 });
 
+services.AddSession();
+services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+services.AddControllersWithViews();
+
 
 
 
