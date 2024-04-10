@@ -36,28 +36,58 @@ namespace AzureAppINTEX.Controllers
 
             return View(viewModel);
         }
-        public ViewResult ProductsList(string category, int productPage = 1, int pageSize = 5) // Default to 5
+        public ViewResult ProductsList(string category, string primaryColor, int productPage = 1, int pageSize = 5)
         {
+            var productsQuery = _repository.Products.AsQueryable();
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(category))
+            {
+                productsQuery = productsQuery.Where(p => p.Category == category);
+            }
+            if (!string.IsNullOrEmpty(primaryColor))
+            {
+                productsQuery = productsQuery.Where(p => p.PrimaryColor == primaryColor);
+            }
+
+            var totalItems = productsQuery.Count();
+
             var viewModel = new ProductsListViewModel
             {
-                Products = _repository.Products
-                    .Where(p => category == null || p.Category == category)
+                Products = productsQuery
                     .OrderBy(p => p.ProductID)
                     .Skip((productPage - 1) * pageSize)
-                    .Take(pageSize),
+                    .Take(pageSize)
+                    .ToList(),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = pageSize,
-                    TotalItems = category == null ?
-                        _repository.Products.Count() :
-                        _repository.Products.Count(e => e.Category == category)
+                    TotalItems = totalItems
                 },
                 CurrentCategory = category
             };
 
+            // Prepare filter data
+            ViewBag.PrimaryColors = _repository.Products
+                .Select(p => p.PrimaryColor)
+                .Distinct()
+                .OrderBy(color => color)
+                .ToList();
+
+            ViewBag.Categories = _repository.Products
+                .Select(p => p.Category)
+                .Distinct()
+                .OrderBy(category => category)
+                .ToList();
+
+            // Store selected filter values
+            ViewBag.SelectedPrimaryColor = primaryColor;
+            ViewBag.SelectedCategory = category;
+
             return View(viewModel);
         }
+
 
     }
 }
