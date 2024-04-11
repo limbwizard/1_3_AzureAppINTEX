@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AzureAppINTEX.Models.Product>
+
+<h2>Products</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>
+                    <a asp-action="EditProduct" asp-route-id="@product.ProductID">Edit</a> |
+                    <form asp-action="DeleteProduct" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@product.ProductID" />
+                        <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="EditProduct">Add New Product</a>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

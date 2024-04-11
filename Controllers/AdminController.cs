@@ -165,6 +165,58 @@ public class AdminController : Controller
         }
         return RedirectToAction(nameof(ViewOrders));
     }
+    // Display all products
+    public async Task<IActionResult> Products()
+    {
+        var products = await _context.Products.ToListAsync();
+        return View(products);
+    }
 
+    // Show add/edit product form
+    public IActionResult EditProduct(int? id)
+    {
+        if (id == null)
+        {
+            return View(new Product());
+        }
+        else
+        {
+            var product = _context.Products.FirstOrDefault(p => p.ProductID == id);
+            return View(product);
+        }
+    }
 
+    // Save product changes
+    [HttpPost]
+    public async Task<IActionResult> EditProduct(Product product)
+    {
+        if (ModelState.IsValid)
+        {
+            if (product.ProductID == 0)
+            {
+                _context.Products.Add(product);
+            }
+            else
+            {
+                _context.Products.Update(product);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Products));
+        }
+        return View(product);
+    }
+
+    // Delete a product
+    [HttpPost]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        var product = await _context.Products.FindAsync(id);
+        if (product != null)
+        {
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Products));
+    }
 }
