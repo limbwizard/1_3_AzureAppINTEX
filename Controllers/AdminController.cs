@@ -135,4 +135,36 @@ public class AdminController : Controller
         // Redirect back to the Index action to refresh the user list
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> OrderDetails(int id)
+    {
+        var order = await _context.Orders
+                                  .Include(o => o.Customer)
+                                  .Include(o => o.LineItems)
+                                  .FirstOrDefaultAsync(o => o.TransactionID == id);
+
+        if (order == null)
+        {
+            return NotFound();
+        }
+
+        return View(order);
+    }
+    [HttpPost]
+    public async Task<IActionResult> DeleteOrder(int transactionId)
+    {
+        var order = await _context.Orders.FindAsync(transactionId);
+        if (order != null)
+        {
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Order deleted successfully.";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Order not found.";
+        }
+        return RedirectToAction(nameof(ViewOrders));
+    }
+
+
 }

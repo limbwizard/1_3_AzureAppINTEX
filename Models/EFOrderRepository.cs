@@ -20,6 +20,10 @@ namespace AzureAppINTEX.Models
         {
             if (order.TransactionID == 0)
             {
+                foreach (var lineItem in order.LineItems)
+                {
+                    _context.Entry(lineItem).State = EntityState.Added; // Explicitly set the state of new line items
+                }
                 _context.Orders.Add(order);
             }
             else

@@ -1,26 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using AzureAppINTEX.Models;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AzureAppINTEX.Data;
 
 namespace AzureAppINTEX.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
+        private readonly UserManager<Customer> _userManager;
 
-        public OrderController(IOrderRepository orderRepository, Cart cartService)
+        public OrderController(ApplicationDbContext context, Cart cartService, UserManager<Customer> userManager)
         {
-            _orderRepository = orderRepository;
+            _context = context;
             _cart = cartService;
+            _userManager = userManager;
         }
 
         public IActionResult Checkout() => View(new Order());
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        public async Task<IActionResult> Checkout(Order order)
         {
-            // Checks if the cart is empty
             if (!_cart.Lines.Any())
             {
                 ModelState.AddModelError("", "Sorry, your cart is empty!");
@@ -29,42 +34,44 @@ namespace AzureAppINTEX.Controllers
 
             if (ModelState.IsValid)
             {
-                // Initialize the collection to avoid null reference
+                order.Date = DateTime.Now; // or DateTime.UtcNow;
+                order.UserId = _userManager.GetUserId(User);
                 order.LineItems = new List<LineItem>();
 
-                // Populate LineItems from Cart
-                foreach (var line in _cart.Lines)
+                foreach (var item in _cart.Lines)
                 {
-                    order.LineItems.Add(new LineItem
+                    var product = await _context.Products.FindAsync(item.Product.ProductID);
+                    if (product != null)
                     {
-                        ProductID = line.Product.ProductID, // Assuming LineItem has a ProductID
-                        Quantity = line.Quantity ?? 0, // Assuming Quantity is nullable in LineItem
-                        Product = line.Product, // Including Product reference if needed
-                        Order = order // Establishing the relationship
-                    });
+                        var lineItem = new LineItem
+                        {
+                            ProductID = item.Product.ProductID,
+                            Quantity = item.Quantity ?? 0,
+                            // Product and Price are not directly set here, they are navigated via ProductID
+                        };
+                        order.LineItems.Add(lineItem);
+                    }
                 }
 
-                // Assuming you have set up Order to automatically calculate Amount
-                // order.Amount = order.LineItems.Sum(li => li.Quantity * li.Product.Price);
+                order.Amount = order.LineItems.Sum(li => (li.Quantity ?? 0) * (_context.Products.Find(li.ProductID)?.Price ?? 0));
+                await _context.Orders.AddAsync(order);
+                await _context.SaveChangesAsync();
 
-                // Save the order and its line items
-                _orderRepository.SaveOrder(order);
-
-                // Clear the cart after saving the order
                 _cart.Clear();
-
-                // Redirect to a completion page, passing OrderID for confirmation, etc.
                 return RedirectToAction("Completed", new { orderId = order.TransactionID });
             }
 
-            // If there are validation issues, return to the view with the current Order object
             return View(order);
         }
 
-        // Example completion action
         public IActionResult Completed(int orderId)
         {
-            // Logic to display confirmation, etc.
+            var order = _context.Orders.FirstOrDefault(o => o.TransactionID == orderId);
+            if (order == null || (User.Identity.IsAuthenticated && order.UserId != _userManager.GetUserId(User)))
+            {
+                return NotFound();
+            }
+
             ViewBag.OrderId = orderId;
             return View();
         }
