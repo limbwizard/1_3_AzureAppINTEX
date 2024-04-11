@@ -7,6 +7,7 @@ using AzureAppINTEX.Models.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using AzureAppINTEX.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 public class AdminController : Controller
 {
@@ -18,7 +19,7 @@ public class AdminController : Controller
         _context = context;
         _userManager = userManager;
     }
-
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 10)
     {
         ViewData["CurrentFilter"] = searchString;
@@ -68,7 +69,7 @@ public class AdminController : Controller
     }
 
 
-
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ViewOrders(bool showFraudulent = false, int page = 1, int pageSize = 10)
     {
         var query = _context.Orders
@@ -166,6 +167,7 @@ public class AdminController : Controller
         return RedirectToAction(nameof(ViewOrders));
     }
     // Display all products
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Products()
     {
         var products = await _context.Products.ToListAsync();

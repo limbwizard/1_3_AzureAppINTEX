@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AzureAppINTEX.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AzureAppINTEX.Controllers
 {
@@ -23,6 +24,7 @@ namespace AzureAppINTEX.Controllers
 
         public IActionResult Checkout() => View(new Order());
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Checkout(Order order)
         {
