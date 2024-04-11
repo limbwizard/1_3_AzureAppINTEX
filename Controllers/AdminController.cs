@@ -1,48 +1,48 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AzureAppINTEX.Data;
 using AzureAppINTEX.Models;
-using AzureAppINTEX.Models.ViewModels;
+using AzureAppINTEX.ViewModels; // Make sure this namespace includes your ViewModel classes
 using System.Linq;
 using System.Threading.Tasks;
-using AzureAppINTEX.ViewModels;
-using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using AzureAppINTEX.Models.ViewModels;
 
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<Customer> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AdminController(ApplicationDbContext context, UserManager<Customer> userManager)
+    public AdminController(ApplicationDbContext context, UserManager<Customer> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
-    [Authorize(Roles = "Admin")]
+
     public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 10)
     {
         ViewData["CurrentFilter"] = searchString;
+        var usersQuery = _userManager.Users;
 
-        var usersQuery = _userManager.Users.AsQueryable();
         if (!string.IsNullOrEmpty(searchString))
         {
             usersQuery = usersQuery.Where(u => u.UserName.Contains(searchString));
         }
 
         var totalUsersCount = await usersQuery.CountAsync();
-
-        // Instead of directly converting to CustomerViewModel, first, get the users
-        var users = await usersQuery.OrderBy(u => u.UserName)
+        var users = await usersQuery.OrderBy(u => u.Id) // Order by User Id
                                     .Skip((page - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToListAsync();
 
-        // Prepare a list to hold the view models including roles
         var viewModels = new List<CustomerViewModel>();
         foreach (var user in users)
         {
-            // Fetch roles for each user
             var userRoles = await _userManager.GetRolesAsync(user);
             viewModels.Add(new CustomerViewModel
             {
@@ -50,7 +50,13 @@ public class AdminController : Controller
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Roles = userRoles.ToList() // Convert IList<string> to List<string> here
+                Email = user.Email,
+                CustomerID = user.CustomerID,
+                BirthDate = user.BirthDate,
+                CountryOfResidence = user.CountryOfResidence,
+                Gender = user.Gender,
+                Age = user.Age,
+                Roles = userRoles.ToList()
             });
         }
 
@@ -65,8 +71,88 @@ public class AdminController : Controller
             }
         };
 
-        return View("ViewUsers", viewModel); // Ensure the view name matches your actual view file
+        return View("ViewUsers", viewModel); // Ensure you have a ViewUsers.cshtml view
     }
+
+    [HttpGet]
+    public async Task<IActionResult> EditUser(string id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var allRoles = await _roleManager.Roles.ToListAsync();
+
+        var model = new EditUserViewModel
+        {
+            Id = user.Id,
+            UserName = user.UserName,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            BirthDate = user.BirthDate,
+            CountryOfResidence = user.CountryOfResidence,
+            Gender = user.Gender,
+            Age = user.Age,
+            Roles = userRoles.ToList(),
+            AllRoles = allRoles.Select(r => r.Name).ToList(),
+            SelectedRoles = userRoles.ToList()
+        };
+
+        return View(model); // Ensure you have an EditUser.cshtml view
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditUser(EditUserViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Update user properties
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            // Add other properties like FirstName, LastName, etc.
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var rolesToAdd = model.SelectedRoles.Except(currentRoles).ToList();
+            var rolesToRemove = currentRoles.Except(model.SelectedRoles).ToList();
+
+            await _userManager.AddToRolesAsync(user, rolesToAdd);
+            await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+        }
+
+        // If we got this far, something failed, redisplay form
+        model.AllRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync(); // Refresh roles in case of error
+        return View(model);
+    }
+
+
+
 
 
     [Authorize(Roles = "Admin")]

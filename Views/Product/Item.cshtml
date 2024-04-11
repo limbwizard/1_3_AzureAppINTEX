@@ -1,4 +1,4 @@
-﻿@model AzureAppINTEX.Models.Product
+﻿@model AzureAppINTEX.Models.ViewModels.ProductDetailsViewModel
 
 @{
     ViewData["Title"] = "Product Details";
@@ -7,18 +7,48 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="@Model.ImgLink" class="img-fluid" alt="Product Image">
+            <img src="@Model.Product.ImgLink" class="img-fluid" alt="Product Image">
         </div>
         <div class="col-md-6">
-            <h2>@Model.Name</h2>
-            <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
-            <p><strong>Description:</strong> @Model.Description</p>
-            <p><strong>Number of Parts:</strong> @Model.NumParts</p>
-            <p><strong>Year:</strong> @Model.Year</p>
-            <p><strong>Category:</strong> @Model.Category</p>
-            <p><strong>Primary Color:</strong> @Model.PrimaryColor</p>
-            <!-- Include Secondary Color if you decide to display it -->
+            <h2>@Model.Product.Name</h2>
+            <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
+            <p><strong>Description:</strong> @Model.Product.Description</p>
+            <p><strong>Number of Parts:</strong> @Model.Product.NumParts</p>
+            <p><strong>Year:</strong> @Model.Product.Year</p>
+            <p><strong>Category:</strong> @Model.Product.Category</p>
+            <p><strong>Primary Color:</strong> @Model.Product.PrimaryColor</p>
             <button type="button" class="btn btn-primary">Add to Cart</button>
         </div>
     </div>
+    @if (Model.RelatedProducts.Any())
+    {
+        <div class="container mt-5">
+            <h3>If you like this, you may also like...</h3>
+            <div class="row">
+                @foreach (var relatedProduct in Model.RelatedProducts)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@relatedProduct.ImgLink" alt="@relatedProduct.Name">
+                            <div class="card-body">
+                                <p class="card-text">@relatedProduct.Name - @relatedProduct.Price.ToString("C")</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Item", "Product", new { id = relatedProduct.ProductID })" class="btn btn-sm btn-outline-secondary">View</a>
+                                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                            <input type="hidden" name="productId" value="@relatedProduct.ProductID" />
+                                            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @* The related products display logic as provided above *@
 </div>
