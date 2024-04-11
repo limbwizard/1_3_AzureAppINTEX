@@ -1,8 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model AzureAppINTEX.Models.ViewModels.HomePageViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron jumbotron-fluid" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1>@Model.MostPopularProduct.Name</h1>
+                <p class="lead">$@Model.MostPopularProduct.Price.ToString("0.00")</p>
+                <a class="btn btn-primary" href="@Url.Action("Details", "Products", new { id = Model.MostPopularProduct.ProductID })">Shop Now</a>
+            </div>
+            <div class="col-md-6">
+                <img src="@Model.MostPopularProduct.ImgLink" alt="@Model.MostPopularProduct.Name" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var product in Model.OtherPopularProducts)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="@product.ImgLink" alt="@product.Name" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">$@product.Price.ToString("0.00")</p>
+                        <a href="@Url.Action("Details", "Products", new { id = product.ProductID })" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

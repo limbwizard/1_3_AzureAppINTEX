@@ -19,29 +19,32 @@ namespace AzureAppINTEX.Controllers
 
         }
 
-
-        public ViewResult Index(string category, int productPage = 1)
+        public IActionResult Index()
         {
-            var viewModel = new ProductsListViewModel
+            // Your specified product IDs in order
+            var topProductIds = new List<int> { 27, 1, 37, 8, 7, 3, 6, 34, 33, 10 };
+
+            // Fetch the products first
+            var topProducts = _repository.Products
+                .Where(p => topProductIds.Contains(p.ProductID))
+                .ToList() // Execute the query and fetch the data
+                .OrderBy(p => topProductIds.IndexOf(p.ProductID)) // Then order the results in memory
+                .ToList();
+
+            var mostPopularProduct = topProducts.First();
+            var otherPopularProducts = topProducts.Skip(1); // Skip the first one
+
+            var viewModel = new HomePageViewModel
             {
-                Products = _repository.Products
-                    .Where(p => category == null || p.Category == category)
-                    .OrderBy(p => p.ProductID)
-                    .Skip((productPage - 1) * PageSize)
-                    .Take(PageSize),
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = productPage,
-                    ItemsPerPage = PageSize,
-                    TotalItems = category == null ?
-                        _repository.Products.Count() :
-                        _repository.Products.Count(e => e.Category == category)
-                },
-                CurrentCategory = category
+                MostPopularProduct = mostPopularProduct,
+                OtherPopularProducts = otherPopularProducts
             };
 
             return View(viewModel);
         }
+
+
+
         public ViewResult ProductsList(string category, string primaryColor, int productPage = 1, int pageSize = 5)
         {
             var productsQuery = _repository.Products.AsQueryable();
