@@ -189,12 +189,11 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult AddUser()
     {
-        var allRoles = _roleManager.Roles.ToList().Select(r => r.Name).ToList();
+        var allRoles = _roleManager.Roles.Select(r => r.Name).ToList();
         var model = new AddUserViewModel
         {
-            AllRoles = allRoles // Ensure this line correctly populates AllRoles
+            AllRoles = allRoles
         };
-
         return View(model);
     }
 
@@ -203,29 +202,46 @@ public class AdminController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new Customer { UserName = model.UserName, Email = model.Email };
+            var user = new Customer
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                BirthDate = model.BirthDate,
+                CountryOfResidence = model.CountryOfResidence,
+                Gender = model.Gender,
+                Age = model.Age
+            };
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                // If roles are included, add them here
-                if (model.Roles.Count > 0)
+                if (model.SelectedRoles != null && model.SelectedRoles.Count > 0)
                 {
-                    await _userManager.AddToRolesAsync(user, model.Roles);
+                    await _userManager.AddToRolesAsync(user, model.SelectedRoles);
                 }
 
-                return RedirectToAction("Index"); // Redirect to user list or appropriate page
+                return RedirectToAction("Index"); // Ensure this redirects to your intended destination
             }
-
-            foreach (var error in result.Errors)
+            else
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                // If creation failed, re-prepare the roles for the form
+                model.AllRoles = _roleManager.Roles.Select(r => r.Name).ToList();
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
         }
 
         // If we got this far, something failed, redisplay form
+        model.AllRoles = _roleManager.Roles.Select(r => r.Name).ToList(); // Ensure roles are populated on failed validation
         return View(model);
     }
+
+
 
 
     [HttpPost]
