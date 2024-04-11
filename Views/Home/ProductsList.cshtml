@@ -1,6 +1,202 @@
 ﻿@model AzureAppINTEX.Models.ViewModels.ProductsListViewModel
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    .jumbotron {
+        margin-bottom: 2rem; /* Adjust as needed for space below the jumbotron */
+    }
 
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card img {
+        object-fit: cover;
+        width: 100%;
+        height: 350px; /* Fixed height, adjust as needed */
+    }
+
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Adds margin below each column */
+    .col-md-4 {
+        margin-bottom: 2rem; /* Adjust as needed for space between rows of cards */
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        padding-top: 1rem;
+    }
+
+    .pagination-container .pagination li a,
+    .pagination-container .pagination li.active a,
+    .pagination-container .pagination li a:hover {
+        color: #C36813; /* Change to your specific orange color */
+        background-color: transparent; /* Default background to transparent */
+        border-color: transparent; /* Default border to transparent */
+    }
+
+    .pagination-container .pagination li.active a,
+    .pagination-container .pagination li a:hover {
+        background-color: #C36813;
+        border-color: #C36813;
+        color: white;
+    }
+
+    .forms-container {
+        display: flex;
+        justify-content: flex-start; /* Align items to the left */
+        align-items: center;
+        gap: 20px; /* Consistent space between elements */
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-container > .form-inline {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .filter-container select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        color: #495057;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path d="M35 55l35 35 35-35z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 16px;
+        cursor: pointer;
+        width: 100%; /* Encourage uniform width */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+        min-width: 160px; /* Ensures dropdowns are not too small */
+    }
+
+    .filter-container select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        color: #495057;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path d="M35 55l35 35 35-35z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 16px;
+        cursor: pointer;
+        width: 100%; /* Encourage uniform width */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+    }
+
+    #pageSize {
+        min-width: 220px; /* Adjust this value based on your needs */
+    }
+
+    .forms-container {
+        display: flex;
+        flex-wrap: wrap; /* Allows items to wrap as needed */
+        align-items: flex-start; /* Align items at the start of the container */
+        gap: 20px; /* Space between each form element */
+        margin-bottom: 1rem; /* Margin at the bottom of the container */
+    }
+
+    .form-select, .form-label {
+        display: block; /* Make sure select and labels are block level for proper spacing */
+    }
+
+    .filter-container select {
+        width: auto; /* Allow the select width to grow as needed */
+        min-width: 160px; /* Minimum width to prevent too narrow selects */
+    }
+
+    #pageSize {
+        min-width: 220px; /* Adjust based on content within */
+    }
+
+    .forms-container form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px; /* Adjust the space between each form element */
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0; /* Adjust as needed */
+    }
+
+    .form-select, .form-label {
+        display: block; /* Ensure these elements behave as block-level for correct spacing */
+    }
+
+    /* Ensures select elements have a uniform appearance and do not stretch excessively */
+    .filter-container select, .form-select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        color: #495057;
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 16px;
+        cursor: pointer;
+        width: auto; /* Adjust width as needed */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+    }
+
+    #pageSize {
+        min-width: 220px; /* Ensure this select element is wide enough to fit its content */
+    }
+
+    /* This style adjustment ensures the form groups are displayed in a row within the form */
+    .product-filter-form .form-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #primaryColor {
+        min-width: 120px; /* Adjust this to ensure "All Colors" fits nicely */
+    }
+
+    #category {
+        min-width: 100px; /* Adjust this for "All Categories" to not be too wide */
+    }
+
+    #pageSize {
+        min-width: 180px; /* Adjust "Items per Page" to a suitable size */
+    }
+
+    .form-select {
+        width: auto; /* This makes sure the select adjusts based on content */
+        max-width: 100%; /* Prevents select from stretching beyond the form group */
+    }
+
+</style>
 @{
     ViewData["Title"] = "Products List";
 
@@ -13,50 +209,6 @@
 @* Existing form and setup here *@
 
 <h2>Products List</h2>
-
-<form asp-action="ProductsList" method="get">
-    <div class="form-group">
-        <label for="primaryColor">Primary Color:</label>
-        <select name="primaryColor" id="primaryColor" onchange="this.form.submit()">
-            <option value="">All Colors</option>
-            @{
-                var selectedPrimaryColor = ViewBag.SelectedPrimaryColor as string;
-                foreach (var color in ViewBag.PrimaryColors as IEnumerable<string>)
-                {
-                    if (color == selectedPrimaryColor)
-                    {
-                        <option value="@color" selected="selected">@color</option>
-                    }
-                    else
-                    {
-                        <option value="@color">@color</option>
-                    }
-                }
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="category">Category:</label>
-        <select name="category" id="category" onchange="this.form.submit()">
-            <option value="">All Categories</option>
-            @{
-                var selectedCategory = ViewBag.SelectedCategory as string;
-                foreach (var cat in ViewBag.Categories as IEnumerable<string>)
-                {
-                    if (cat == selectedCategory)
-                    {
-                        <option value="@cat" selected="selected">@cat</option>
-                    }
-                    else
-                    {
-                        <option value="@cat">@cat</option>
-                    }
-                }
-            }
-        </select>
-    </div>
-</form>
-
 @{
     ViewData["Title"] = "Products List";
     var pageSizeOptions = new List<int> { 5, 10, 20 };
@@ -74,14 +226,53 @@
     }
 }
 
-<form asp-action="ProductsList" method="get">
-    <div class="form-group">
-        <label for="pageSize">Items per page:</label>
-        <select name="pageSize" id="pageSize" onchange="this.form.submit()">
-            @Html.Raw(pageSizeSelectHtml)
-        </select>
-    </div>
-</form>
+<div class="forms-container">
+    <form asp-action="ProductsList" method="get" class="product-filter-form">
+        <div class="form-group">
+            <select name="primaryColor" id="primaryColor" class="form-select" onchange="this.form.submit()">
+                <option value="">All Colors</option>
+                @{
+                    var selectedPrimaryColor = ViewBag.SelectedPrimaryColor as string;
+                    foreach (var color in ViewBag.PrimaryColors as IEnumerable<string>)
+                    {
+                        if (color == selectedPrimaryColor)
+                        {
+                            <option value="@color" selected="selected">@color</option>
+                        }
+                        else
+                        {
+                            <option value="@color">@color</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <select name="category" id="category" class="form-select" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                @{
+                    var selectedCategory = ViewBag.SelectedCategory as string;
+                    foreach (var cat in ViewBag.Categories as IEnumerable<string>)
+                    {
+                        if (cat == selectedCategory)
+                        {
+                            <option value="@cat" selected="selected">@cat</option>
+                        }
+                        else
+                        {
+                            <option value="@cat">@cat</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <select name="pageSize" id="pageSize" class="form-select" onchange="this.form.submit()">
+                @Html.Raw(pageSizeSelectHtml)
+            </select>
+        </div>
+    </form>
+</div>
 
 
 
@@ -132,5 +323,32 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        // Function to update the items per page dropdown text
+        function updateItemsPerPageText() {
+            $('#pageSize option').each(function () {
+                var val = $(this).val();
+                if (val) { // Checks if the value is not empty
+                    $(this).text("Items per page: " + val);
+                } else {
+                    $(this).text("Select items per page");
+                }
+            });
+        }
 
-@Html.Partial("_Pagination", Model.PagingInfo)
+        // Initial update when the page loads
+        updateItemsPerPageText();
+
+        // Update dropdown text upon changing the selection
+        $('#pageSize').change(function () {
+            updateItemsPerPageText();
+        });
+
+        // Rest of your jQuery code...
+    });
+</script>
+
+<div class="pagination-container">
+    @Html.Partial("_Pagination", Model.PagingInfo)
+</div>

@@ -42,3 +42,38 @@ body {
     cursor: pointer;
 }
 
+/* Targeting all <button> elements and elements with class .btn */
+button, .btn {
+    background-color: #C36813; /* Button background color */
+    border-color: #C36813; /* Button border color */
+    color: white; /* Text color */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Adjust the hover state for better user experience */
+button:hover, .btn:hover {
+    background-color: #A55F10; /* Slightly darker on hover */
+    border-color: #A55F10;
+    color: white;
+}
+
+a {
+    color: black; /* Change hyperlink text color to black */
+    text-decoration: none; /* Remove underline from hyperlink text */
+}
+
+/* Optional: if you want to add underline back on hover for better user experience */
+a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Responsive Adjustment */
+@media (max-width: 768px) {
+    .forms-container {
+        flex-direction: column;
+    }
+
+    .filter-container {
+        width: 100%; /* Full width on smaller screens */
+    }
+}
