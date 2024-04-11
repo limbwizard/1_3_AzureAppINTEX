@@ -7,14 +7,25 @@ namespace AzureAppINTEX.Models
 {
     public class EFStoreRepository : IStoreRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EFStoreRepository(ApplicationDbContext ctx)
+        public EFStoreRepository(ApplicationDbContext context)
         {
-            _context = ctx;
+            _context = context;
         }
 
         public IQueryable<Product> Products => _context.Products;
+
+        public IQueryable<Order> GetOrdersByUserId(string userId)
+        {
+            return _context.Orders.Where(o => o.UserId == userId);
+        }
+
+        public void SaveProduct(Product product)
+        {
+            _context.Entry(product).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
 
         public void CreateProduct(Product product)
         {
@@ -30,12 +41,6 @@ namespace AzureAppINTEX.Models
                 _context.Products.Remove(product);
                 _context.SaveChanges();
             }
-        }
-
-        public void SaveProduct(Product product)
-        {
-            _context.Entry(product).State = EntityState.Modified;
-            _context.SaveChanges();
         }
     }
 }
