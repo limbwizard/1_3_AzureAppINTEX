@@ -1,46 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AzureAppINTEX.Models;
 using AzureAppINTEX.Infrastructure;
-using System.Linq;
+using AzureAppINTEX.Models.ViewModels;
 
-namespace AzureAppINTEX.Controllers
+public class CartController : Controller
 {
-    public class CartController : Controller
+    private readonly IStoreRepository repository;
+    private readonly Cart cart;
+
+    public CartController(IStoreRepository repo, Cart cartService)
     {
-        private IStoreRepository repository;
+        repository = repo;
+        cart = cartService;
+    }
 
-        public CartController(IStoreRepository repo)
+    // Displays the current state of the cart.
+    public IActionResult Index(string returnUrl)
+    {
+        bool isLoggedIn = User.Identity.IsAuthenticated;
+        bool loginSuccessful = Request.Query.ContainsKey("loginSuccessful");
+
+        if (loginSuccessful)
         {
-            repository = repo;
+            // Reload the page to update the view model with the correct login status
+            return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToActionResult AddToCart(int productId, int quantity = 1)
+        return View(new CartIndexViewModel
         {
-            Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+            Cart = cart,
+            ReturnUrl = returnUrl,
+            IsLoggedIn = isLoggedIn
 
-            if (product != null)
-            {
-                Cart cart = SessionCart.GetCart(HttpContext.RequestServices);
-                cart.AddItem(product, quantity);
-                HttpContext.Session.SetJson("Cart", cart);
-            }
+        });
+    }
 
-            return RedirectToAction("ProductsList", "Home");
-        }
+    // Adds a product to the cart.
+    public RedirectToActionResult AddToCart(int productId, string returnUrl)
+    {
+        Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
 
-        public RedirectToActionResult RemoveFromCart(int productId)
+        if (product != null)
         {
-            Cart cart = SessionCart.GetCart(HttpContext.RequestServices);
-            cart.RemoveItem(productId);
-            HttpContext.Session.SetJson("Cart", cart);
-
-            return RedirectToAction("Index"); // Assumes this is the cart view
+            cart.AddItem(product, 1);
         }
+        return RedirectToAction("Index", new { returnUrl });
+    }
 
-        public ViewResult Index()
-        {
-            var cart = SessionCart.GetCart(HttpContext.RequestServices);
-            return View(cart);
-        }
+    // Removes a product from the cart.
+    public RedirectToActionResult RemoveFromCart(int productId, string returnUrl)
+    {
+        cart.RemoveItem(productId);
+        return RedirectToAction("Index", new { returnUrl });
     }
 }

@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using AzureAppINTEX.Infrastructure;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
-using System.Linq;
+using AzureAppINTEX.Models;
 
 namespace AzureAppINTEX.Models
 {
     public class SessionCart : Cart
     {
         [JsonIgnore]
-        public ISession Session { get; set; }
+        public ISession Session { get; private set; }
 
+        // Factory method to retrieve Cart from session or create new.
         public static Cart GetCart(IServiceProvider services)
         {
             ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
@@ -25,10 +25,9 @@ namespace AzureAppINTEX.Models
             Session.SetJson("Cart", this);
         }
 
-        // Updated to accept ProductID for removal
-        public void RemoveItem(int productId)
+        public override void RemoveItem(int productId)
         {
-            base.RemoveItem(productId); // Adjust base method to accept ProductID
+            base.RemoveItem(productId);
             Session.SetJson("Cart", this);
         }
 

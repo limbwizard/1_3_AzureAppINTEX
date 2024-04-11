@@ -1,34 +1,54 @@
-﻿@model AzureAppINTEX.Models.Cart
+﻿@model AzureAppINTEX.Models.ViewModels.CartIndexViewModel
 
-<h2>Your Cart</h2>
-@if (Model.Lines.Count == 0)
-{
-    <p>Your cart is empty.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var line in Model.Lines)
-            {
-                <tr>
-                    <td>@line.Product.Name</td>
-                    <td>@line.Quantity</td>
-                    <td>@line.Product.Price.ToString("C")</td>
-                    <td>
-                        <a asp-action="RemoveFromCart" asp-route-productId="@line.ProductID"
-                           class="btn btn-danger">Remove</a>
-                    </td>
-                </tr>
+<h2>Your cart</h2>
+
+<table class="table">
+    @foreach (var line in Model.Cart.Lines)
+    {
+        <tr>
+            <td>@line.Product.Name</td>
+            <td>@line.Quantity</td>
+            <td>@line.Product.Price</td>
+            <td>
+                <a asp-action="RemoveFromCart" asp-route-productId="@line.Product.ProductID"
+                   asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-danger">
+                    Remove
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="button-container">
+    <a asp-controller="Home" asp-action="ProductsList" class="btn btn-primary">
+        Continue Shopping
+    </a>
+    <button id="loginBtn" class="btn btn-primary">@(Model.IsLoggedIn ? "Check out" : "Log in")</button>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', function () {
+            var isLoggedIn = @Html.Raw(Model.IsLoggedIn.ToString().ToLower());
+            if (isLoggedIn) {
+                // Perform submit action
+                submitForm();
+            } else {
+                // Show login form or redirect to login page
+                showLoginForm();
             }
-        </tbody>
-    </table>
+        });
+
+        function submitForm() {
+            // Your logic to submit the form
+        }
+
+        function showLoginForm() {
+            // Redirect to the login page
+            var loginUrl = '@Url.Page("/Account/Login", new { area = "Identity" })';
+            var returnUrl = '@Url.Action("Index", "Cart", new { returnUrl = Context.Request.Path })';
+            window.location.href = loginUrl + '?returnUrl=' + encodeURIComponent(returnUrl);
+        }
+    </script>
 }

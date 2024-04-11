@@ -4,6 +4,7 @@ using AzureAppINTEX.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureAppINTEX.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240410222659_Roles")]
+    partial class Roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,54 +109,6 @@ namespace AzureAppINTEX.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("AzureAppINTEX.Models.CustomerRecommendation", b =>
-                {
-                    b.Property<int>("CustomerRecommendationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerRecommendationId"));
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("Rec1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec10")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec2")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec3")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec4")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec5")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec6")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec7")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec8")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rec9")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomerRecommendationId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("CustomerRecommendations");
                 });
 
             modelBuilder.Entity("AzureAppINTEX.Models.LineItem", b =>
@@ -280,13 +235,16 @@ namespace AzureAppINTEX.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("AzureAppINTEX.Models.ProductRecommendation", b =>
+            modelBuilder.Entity("AzureAppINTEX.Models.Recommendation", b =>
                 {
-                    b.Property<int>("ProductRecommendationId")
+                    b.Property<int>("RecommendationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductRecommendationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecommendationId"));
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -321,11 +279,13 @@ namespace AzureAppINTEX.Migrations
                     b.Property<int?>("Rec9")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductRecommendationId");
+                    b.HasKey("RecommendationId");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductRecommendations");
+                    b.ToTable("Recommendations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -461,15 +421,6 @@ namespace AzureAppINTEX.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AzureAppINTEX.Models.CustomerRecommendation", b =>
-                {
-                    b.HasOne("AzureAppINTEX.Models.Customer", "Customer")
-                        .WithMany("Recommendations")
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("AzureAppINTEX.Models.LineItem", b =>
                 {
                     b.HasOne("AzureAppINTEX.Models.Product", "Product")
@@ -498,13 +449,19 @@ namespace AzureAppINTEX.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("AzureAppINTEX.Models.ProductRecommendation", b =>
+            modelBuilder.Entity("AzureAppINTEX.Models.Recommendation", b =>
                 {
+                    b.HasOne("AzureAppINTEX.Models.Customer", "Customer")
+                        .WithMany("Recommendations")
+                        .HasForeignKey("CustomerId");
+
                     b.HasOne("AzureAppINTEX.Models.Product", "Product")
                         .WithMany("Recommendations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Product");
                 });
