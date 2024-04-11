@@ -82,7 +82,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession(); // IMPORTANT: Ensure UseSession is called before UseRouting and UseEndpoints
+app.UseSession();
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
