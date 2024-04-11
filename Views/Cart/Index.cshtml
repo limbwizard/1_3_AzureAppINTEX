@@ -41,8 +41,10 @@
         });
 
         function submitForm() {
-            // Your logic to submit the form
+            // Redirect to the checkout action
+            window.location.href = '@Url.Action("Checkout", "Order")';
         }
+
 
         function showLoginForm() {
             // Redirect to the login page

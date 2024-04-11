@@ -15,6 +15,7 @@ namespace AzureAppINTEX.Data
         public DbSet<LineItem> LineItems => Set<LineItem>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<Product> Products => Set<Product>();
-        public DbSet<Recommendation> Recommendations => Set<Recommendation>();
+        public DbSet<ProductRecommendation> ProductRecommendations => Set<ProductRecommendation>();
+        public DbSet<CustomerRecommendation> CustomerRecommendations => Set<CustomerRecommendation>();
     }
 }

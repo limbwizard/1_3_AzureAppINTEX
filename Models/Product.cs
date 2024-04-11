@@ -22,7 +22,7 @@ namespace AzureAppINTEX.Models
         public string? SecondaryColor { get; set; }
         public string? Description { get; set; }
         public string? Category { get; set; }
-        public ICollection<Recommendation>? Recommendations { get; set; }
+        public ICollection<ProductRecommendation>? Recommendations { get; set; }
         public ICollection<LineItem>? LineItems { get; set; }
     }
 

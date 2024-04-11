@@ -1,0 +1,71 @@
+﻿@model AzureAppINTEX.ViewModels.UserListViewModel
+
+<h2>Users</h2>
+
+<form asp-action="AddUser" method="post">
+    <input type="text" name="UserName" placeholder="Username" required />
+    <input type="text" name="Email" placeholder="Email" required />
+    <input type="password" name="Password" placeholder="Password" required />
+    <button type="submit">Add User</button>
+</form>
+
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label for="searchString">Search by username:</label>
+        <input type="text" class="form-control" id="searchString" name="searchString" value="@ViewData["CurrentFilter"]" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <!-- Delete User Form -->
+                    <form asp-action="DeleteUser" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<div>
+    <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Admin", new { page = 1 })">First</a>
+    @if (Model.PagingInfo.CurrentPage > 1)
+    {
+        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Admin", new { page = Model.PagingInfo.CurrentPage - 1 })">Previous</a>
+    }
+
+    @for (int i = Math.Max(1, Model.PagingInfo.CurrentPage - 2); i <= Math.Min(Model.PagingInfo.CurrentPage + 2, Model.PagingInfo.TotalPages); i++)
+    {
+        <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-outline-primary")" href="@Url.Action("Index", "Admin", new { page = i })">
+            @i
+        </a>
+    }
+
+    @if (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages)
+    {
+        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Admin", new { page = Model.PagingInfo.CurrentPage + 1 })">Next</a>
+    }
+    <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Admin", new { page = Model.PagingInfo.TotalPages })">Last</a>
+</div>

@@ -2,11 +2,9 @@
 
 namespace AzureAppINTEX.Models
 {
-    public class Recommendation
+    public class CustomerRecommendation
     {
-        public int RecommendationId { get; set; }
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        public int CustomerRecommendationId { get; set; }
         [ForeignKey("Customer")]
         public string? CustomerId { get; set; }
         public int? Rec1 { get; set; }
@@ -19,8 +17,6 @@ namespace AzureAppINTEX.Models
         public int? Rec8 { get; set; }
         public int? Rec9 { get; set; }
         public int? Rec10 { get; set; }
-        public Product? Product { get; set; }
         public Customer? Customer { get; set; }
-
     }
 }

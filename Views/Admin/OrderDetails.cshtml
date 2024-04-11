@@ -1,0 +1,54 @@
+﻿@model AzureAppINTEX.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h1>Order Details</h1>
+
+<div class="order-details">
+    <h2>Transaction ID: @Model.TransactionID</h2>
+    <p><strong>Date:</strong> @Model.Date?.ToString("yyyy-MM-dd")</p>
+    <p><strong>Customer:</strong> @Model.Customer?.FirstName @Model.Customer?.LastName</p>
+    <p><strong>Country of Transaction:</strong> @Model.CountryOfTransaction</p>
+    <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
+    <p><strong>Amount:</strong> @Model.Amount.ToString("C")</p>
+    <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
+    <p><strong>Bank:</strong> @Model.Bank</p>
+    <p><strong>Type of Card:</strong> @Model.TypeOfCard</p>
+    <p><strong>Fraudulent:</strong> @Model.Fraud == 1 ? "Yes" : "No"</p>
+</div>
+
+@if (Model.LineItems != null && Model.LineItems.Any())
+{
+    <div class="line-items">
+        <h3>Items Ordered</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.LineItems)
+                {
+                    <tr>
+                        <td>@item.Product?.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product?.Price.ToString("C")</td>
+                        <td>@((item.Quantity ?? 0) * (item.Product?.Price ?? 0)).ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>No items found for this order.</p>
+}
+
+<a href="@Url.Action("ViewOrders", "Admin")" class="btn btn-primary">Back to Orders</a>
