@@ -6,7 +6,7 @@
             <div class="col-md-6">
                 <h1>@Model.MostPopularProduct.Name</h1>
                 <p class="lead">$@Model.MostPopularProduct.Price.ToString("0.00")</p>
-                <a class="btn btn-primary" href="@Url.Action("Details", "Products", new { id = Model.MostPopularProduct.ProductID })">Shop Now</a>
+                <a class="btn btn-primary" asp-controller="Product" asp-action="Item" asp-route-id="@Model.MostPopularProduct.ProductID">Shop Now</a>
             </div>
             <div class="col-md-6">
                 <img src="@Model.MostPopularProduct.ImgLink" alt="@Model.MostPopularProduct.Name" style="width: 100%; height: auto;">
@@ -26,7 +26,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@product.Name</h5>
                         <p class="card-text">$@product.Price.ToString("0.00")</p>
-                        <a href="@Url.Action("Details", "Products", new { id = product.ProductID })" class="btn btn-primary">View Product</a>
+                        <a href="@Url.Action("Item", "Product", new { id = product.ProductID })" class="btn btn-primary">View Item</a>
                     </div>
                 </div>
             </div>
