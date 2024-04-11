@@ -18,6 +18,6 @@ namespace AzureAppINTEX.Models
         // Navigation properties for domain-specific relationships
         // Assuming Order and Recommendation are other domain models in your application
         public virtual ICollection<Order>? Orders { get; set; }
-        public virtual ICollection<Recommendation>? Recommendations { get; set; }
+        public virtual ICollection<CustomerRecommendation>? Recommendations { get; set; }
     }
 }
