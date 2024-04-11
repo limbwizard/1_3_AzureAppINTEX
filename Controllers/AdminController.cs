@@ -165,7 +165,7 @@ public class AdminController : Controller
 
         var totalItems = await query.CountAsync();
 
-        var orders = await query.OrderBy(o => o.TransactionID)
+        var orders = await query.OrderByDescending(o => o.Date)
                                 .Skip((page - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToListAsync();
