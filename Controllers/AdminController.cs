@@ -185,28 +185,46 @@ public class AdminController : Controller
         return View(viewModel);
     }
 
+
+    [HttpGet]
+    public IActionResult AddUser()
+    {
+        var allRoles = _roleManager.Roles.ToList().Select(r => r.Name).ToList();
+        var model = new AddUserViewModel
+        {
+            AllRoles = allRoles // Ensure this line correctly populates AllRoles
+        };
+
+        return View(model);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> AddUser(string userName, string email, string password)
+    public async Task<IActionResult> AddUser(AddUserViewModel model)
     {
         if (ModelState.IsValid)
         {
-            var user = new Customer { UserName = userName, Email = email };
-            var result = await _userManager.CreateAsync(user, password);
+            var user = new Customer { UserName = model.UserName, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(Index));
+                // If roles are included, add them here
+                if (model.Roles.Count > 0)
+                {
+                    await _userManager.AddToRolesAsync(user, model.Roles);
+                }
+
+                return RedirectToAction("Index"); // Redirect to user list or appropriate page
             }
 
-            // If we're here, something went wrong
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error.Description);
+                ModelState.AddModelError(string.Empty, error.Description);
             }
         }
 
-        // Use TempData to pass errors back if redirecting
-        TempData["Errors"] = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-        return RedirectToAction(nameof(Index));
+        // If we got this far, something failed, redisplay form
+        return View(model);
     }
 
 

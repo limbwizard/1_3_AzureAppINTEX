@@ -1,13 +1,10 @@
 ﻿@model AzureAppINTEX.ViewModels.UserListViewModel
 
 <h2>Users</h2>
+<div class="mb-3">
+    <a asp-action="AddUser" asp-controller="Admin" class="btn btn-primary">Add User</a>
+</div>
 
-<form asp-action="AddUser" method="post">
-    <input type="text" name="UserName" placeholder="Username" required />
-    <input type="text" name="Email" placeholder="Email" required />
-    <input type="password" name="Password" placeholder="Password" required />
-    <button type="submit">Add User</button>
-</form>
 
 <form method="get" asp-action="Index">
     <div class="form-group">
