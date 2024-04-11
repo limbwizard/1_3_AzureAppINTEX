@@ -1,18 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
 using AzureAppINTEX.Models;
 using AzureAppINTEX.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace AzureAppINTEX.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IStoreRepository _repository;
+        private readonly UserManager<Customer> _userManager;
+
         public int PageSize = 20;
 
-        public HomeController(IStoreRepository repository)
+        public HomeController(IStoreRepository repository, UserManager<Customer> userManager)
         {
             _repository = repository;
+            _userManager = userManager;
+
         }
+
 
         public ViewResult Index(string category, int productPage = 1)
         {
@@ -98,9 +104,27 @@ namespace AzureAppINTEX.Controllers
             return View();
         }
 
-        public IActionResult MyOrders()
+        public async Task<IActionResult> MyOrders()
         {
-            return View();
+            // Get the currently logged-in user
+            var user = await _userManager.GetUserAsync(User);
+
+            // If the user is not authenticated, redirect to login
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Retrieve orders for the current user using the repository method
+            var orders = _repository.GetOrdersByUserId(user.Id).ToList();
+
+            // Create a view model to pass orders to the view
+            var viewModel = new CustomerOrdersViewModel
+            {
+                Orders = orders
+            };
+
+            return View(viewModel);
         }
     }
 }
