@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AzureAppINTEX.Models.ViewModels.CustomerOrdersViewModel
+
 @{
+    ViewData["Title"] = "My Orders";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.Orders.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.TransactionID</td>
+                    <td>@order.Date</td>
+                    <td>@order.Amount</td>
+                    <!-- Add more columns as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a asp-controller="Home" asp-action="ProductsList" class="btn btn-primary">Continue Shopping</a>
+    </div>
+}
+else
+{
+    <p>You have no orders yet.</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Start Shopping</a>
 }
