@@ -1,6 +1,13 @@
 ﻿@{
-    Layout = null;
+    Layout = "_Layout"; // Use your layout file if you have one for consistent styling
 }
 
-<h2>Order Completed</h2>
-<p>Thank you for your order.</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2 class="display-4">Order Completed</h2>
+            <p class="lead">Thank you for your order. Your transaction has been successfully processed.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Back to Home Page</a>
+        </div>
+    </div>
+</div>

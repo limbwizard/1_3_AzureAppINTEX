@@ -18,9 +18,8 @@
             <tr>
                 <td>@line.Product.Name</td>
                 <td>@line.Quantity</td>
-                <td>@line.Product.Price</td>
-                <td>@(line.Quantity * line.Product.Price)</td> <!-- Total Price -->
-
+                <td>$@line.Product.Price.ToString("0.##")</td> <!-- Unit Price with Dollar Sign -->
+                <td>$@((line.Quantity * line.Product.Price)?.ToString("0.##") ?? "")</td>
                 <td>
                     <a asp-action="RemoveFromCart" asp-route-productId="@line.Product.ProductID"
                        asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-danger">
@@ -33,7 +32,7 @@
     <tfoot>
         <tr>
             <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-            <td>@Model.Cart.ComputeTotalValue()</td>
+            <td>$@Model.Cart.ComputeTotalValue().ToString("0.##")</td> <!-- Total Cart Value with Dollar Sign -->
             <td style="text-align: left;">
                 <button id="loginBtn" class="btn btn-primary">@(Model.IsLoggedIn ? "Check out" : "Log in to checkout")</button>
             </td>
@@ -47,6 +46,7 @@
         </tr>
     </tfoot>
 </table>
+
 
 @section Scripts {
     <script>

@@ -36,16 +36,24 @@ public class CartController : Controller
     }
 
     // Adds a product to the cart.
-    public RedirectToActionResult AddToCart(int productId, string returnUrl)
+    // In your CartController
+    public IActionResult AddToCart(int productId, string returnUrl)
     {
         Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
 
         if (product != null)
         {
             cart.AddItem(product, 1);
+            // Return a JSON result indicating success
+            return Json(new { success = true, responseText = "Item added to cart successfully!" });
         }
-        return RedirectToAction("Index", new { returnUrl });
+        else
+        {
+            // Return a JSON result indicating failure
+            return Json(new { success = false, responseText = "Error: Item could not be added to cart." });
+        }
     }
+
 
     // Removes a product from the cart.
     public RedirectToActionResult RemoveFromCart(int productId, string returnUrl)
