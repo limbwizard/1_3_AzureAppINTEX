@@ -21,13 +21,6 @@ namespace AzureAppINTEX.Models
         {
             return _context.Orders.Where(o => o.UserId == userId);
         }
-
-        public void SaveProduct(Product product)
-        {
-            _context.Entry(product).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
         public void CreateProduct(Product product)
         {
             _context.Add(product);
