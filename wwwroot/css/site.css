@@ -77,3 +77,7 @@ a:hover {
         width: 100%; /* Full width on smaller screens */
     }
 }
+
+body {
+    padding-top: 90px; /* Adjust this value based on the actual height of your navbar */
+}
