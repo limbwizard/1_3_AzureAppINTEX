@@ -1,9 +1,8 @@
 ﻿@model AzureAppINTEX.Models.ViewModels.HomePageViewModel
 
-
 <style>
     .jumbotron {
-        margin-bottom: 2rem; /* Adjust as needed for space below the jumbotron */
+        margin-bottom: 2rem;
     }
 
     .card {
@@ -15,7 +14,7 @@
         .card img {
             object-fit: cover;
             width: 100%;
-            height: 350px; /* Fixed height, adjust as needed */
+            height: 350px;
         }
 
     .card-body {
@@ -25,15 +24,71 @@
         justify-content: space-between;
     }
 
-    /* Adds margin below each column */
     .col-md-4 {
-        margin-bottom: 2rem; /* Adjust as needed for space between rows of cards */
+        margin-bottom: 2rem;
     }
 
     .jumbotron .col-md-6:first-child {
-        padding-left: 4rem; /* Adjust this value as needed */
-</style>
+        padding-left: 4rem;
+    }
 
+    .section-title {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .product-container {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 20px;
+    }
+
+    .product-card {
+        flex: 0 0 220px;
+        margin-right: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .product-card .card {
+            height: 100%;
+        }
+
+        .product-card img {
+            height: 225px;
+            object-fit: cover;
+        }
+
+    .card-text {
+        font-size: 0.9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .btn-view {
+        width: 100%;
+    }
+
+    /* Modern scrollbar styling */
+    .product-container::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .product-container::-webkit-scrollbar-track {
+        background: #F1F1F1;
+    }
+
+    .product-container::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+        .product-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+</style>
 
 <div class="jumbotron jumbotron-fluid" style="background-color: #f8f9fa;">
     <div class="container">
@@ -50,18 +105,43 @@
     </div>
 </div>
 
+@if (Model.RecommendedProducts != null && Model.RecommendedProducts.Any())
+{
+    <div class="container">
+        <h2 class="section-title">Recommended for You</h2>
+        <div class="product-container">
+            @foreach (var product in Model.RecommendedProducts)
+            {
+                <div class="product-card">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="@product.ImgLink" alt="@product.Name">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <a href="@Url.Action("Item", "Product", new { id = product.ProductID })">@product.Name</a> - @product.Price.ToString("C")
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="@Url.Action("Item", "Product", new { id = product.ProductID })" class="btn btn-primary btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
 
 <div class="container">
+    <h2 class="section-title">Other Popular Products</h2>
     <div class="row">
         @foreach (var product in Model.OtherPopularProducts)
         {
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    <img src="@product.ImgLink" alt="@product.Name" class="card-img-top">
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@product.ImgLink" alt="@product.Name">
                     <div class="card-body">
                         <h5 class="card-title">@product.Name</h5>
                         <p class="card-text">$@product.Price.ToString("0.00")</p>
-                        <a href="@Url.Action("Item", "Product", new { id = product.ProductID })" class="btn btn-primary">View Item</a>
+                        <a href="@Url.Action("Item", "Product", new { id = product.ProductID })" class="btn btn-primary btn-view">View Details</a>
                     </div>
                 </div>
             </div>
