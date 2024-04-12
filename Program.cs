@@ -26,7 +26,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<Customer, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -86,10 +87,12 @@ app.UseSession();
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    CheckConsentNeeded = context => true,
+    // This line ensures that the consent check is not needed for essential cookies.
+    CheckConsentNeeded = context => false, // No consent check required
     MinimumSameSitePolicy = SameSiteMode.None,
     HttpOnly = HttpOnlyPolicy.Always
 });
+
 
 app.UseAuthentication();
 app.UseAuthorization();
