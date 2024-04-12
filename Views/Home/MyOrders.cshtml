@@ -33,7 +33,7 @@
     foreach (var order in Model.Orders)
     {
         <h3>Transaction ID: @order.TransactionID</h3>
-        <p>Date: @order.Date?.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        <p>Date: @order.Date?.ToString("yyyy-MM-dd")</p>
         <p>Total Amount: $@order.Amount</p>
         <table class="table">
             <thead>
