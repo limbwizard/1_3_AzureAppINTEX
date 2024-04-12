@@ -1,0 +1,67 @@
+﻿@* //REVIEW ORDERS VIEW (CSHTML)*********************************************************
+
+@model IEnumerable<AzureAppINTEX.Models.FraudPrediction>
+
+@{
+    ViewData["Title"] = "Predictions";
+}
+
+<style>
+    .table-responsive {
+        overflow-x: auto;
+    }
+    .full-width-table {
+        margin-left: -50px; 
+        margin-right: 0;
+
+    }
+    .table {
+        width: auto; 
+        margin-bottom: 0; 
+    }
+    .prediction-cell {
+        background-color: #e0f2f1;
+    }
+
+</style>
+
+<h2>Predictions</h2>
+<div class="full-width-table">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Transaction Id</th>
+                <th>User Id</th>
+                <th>Date</th>
+                <th>DayOfWeek</th>
+                <th>Time</th>
+                <th>EntryMode</th>
+                <th>Amount</th>
+                <th>TypeOfTransaction</th>
+                <th>CountryOfTransaction</th>
+                <th>ShippingAddress</th>
+                <th>Bank</th>
+                <th>TypeOfCard</th>
+                <th class="prediction-cell">Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Order.TransactionID</td>
+                    <td>@item.Order.UserId</td>
+                    <td>@item.Order.Date</td>
+                    <td>@item.Order.DayOfWeek</td>
+                    <td>@item.Order.Time</td>
+                    <td>@item.Order.EntryMode</td>
+                    <td>@item.Order.Amount</td>
+                    <td>@item.Order.TypeOfTransaction</td>
+                    <td class="prediction-cell">@item.Prediction</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    <br />
+    *@
