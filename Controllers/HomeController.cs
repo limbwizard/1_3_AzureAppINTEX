@@ -212,6 +212,7 @@ namespace AzureAppINTEX.Controllers
                 return RedirectToAction("Login", "Account");
             }
             var orders = _repository.GetOrdersByUserId(user.Id)
+                .OrderByDescending(o => o.Date) // Sorting by Date descending
                 .Select(o => new OrderViewModel
                 {
                     TransactionID = o.TransactionID,
