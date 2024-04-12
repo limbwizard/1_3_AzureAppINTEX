@@ -87,3 +87,14 @@
     }
     <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Admin", new { page = Model.PagingInfo.TotalPages })">Last</a>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var chance = Math.random();
+            if (chance < 0.1) { // 10% chance
+                alert('Heads up! Always check the URL and never share your password.');
+            }
+        });
+    </script>
+}
