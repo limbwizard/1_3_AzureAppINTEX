@@ -14,5 +14,6 @@ namespace AzureAppINTEX.Models
 
         // New method to get product recommendations
         ProductRecommendation GetProductRecommendation(int productId);
+        CustomerRecommendation GetCustomerRecommendation(string customerId);
     }
 }

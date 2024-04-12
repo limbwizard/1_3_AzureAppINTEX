@@ -19,7 +19,7 @@ namespace AzureAppINTEX.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // Your specified product IDs in order
             var topProductIds = new List<int> { 27, 1, 37, 8, 7, 3, 6, 34, 33, 10 };
@@ -34,10 +34,41 @@ namespace AzureAppINTEX.Controllers
             var mostPopularProduct = topProducts.First();
             var otherPopularProducts = topProducts.Skip(1); // Skip the first one
 
+
+            var user = await _userManager.GetUserAsync(User);
+            List<Product> recommendedProducts = new List<Product>();
+
+            if (user != null)
+            {
+                var customerRecommendation = _repository.GetCustomerRecommendation(user.Id);
+                if (customerRecommendation != null)
+                {
+                    var recommendedProductIds = new List<int>
+            {
+                customerRecommendation.Rec1 ?? 0,
+                customerRecommendation.Rec2 ?? 0,
+                customerRecommendation.Rec3 ?? 0,
+                customerRecommendation.Rec4 ?? 0,
+                customerRecommendation.Rec5 ?? 0,
+                customerRecommendation.Rec6 ?? 0,
+                customerRecommendation.Rec7 ?? 0,
+                customerRecommendation.Rec8 ?? 0,
+                customerRecommendation.Rec9 ?? 0,
+                customerRecommendation.Rec10 ?? 0
+            };
+
+                    recommendedProducts = _repository.Products
+                    .Where(p => recommendedProductIds.Contains(p.ProductID))
+                    .Where(p => p.ProductID != 0)
+                    .ToList();
+                }
+            }
+
             var viewModel = new HomePageViewModel
             {
                 MostPopularProduct = mostPopularProduct,
-                OtherPopularProducts = otherPopularProducts
+                OtherPopularProducts = otherPopularProducts,
+                RecommendedProducts = recommendedProducts
             };
 
             return View(viewModel);

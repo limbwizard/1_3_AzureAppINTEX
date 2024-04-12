@@ -56,5 +56,11 @@ namespace AzureAppINTEX.Models
             // Fetches the first or default ProductRecommendation for the given productId
             return _context.ProductRecommendations.FirstOrDefault(pr => pr.ProductId == productId);
         }
+        public CustomerRecommendation GetCustomerRecommendation(string customerId)
+        {
+            // Fetches the first or default CustomerRecommendation for the given customerId
+            return _context.CustomerRecommendations.FirstOrDefault(cr => cr.CustomerId == customerId);
+        }
+
     }
 }
