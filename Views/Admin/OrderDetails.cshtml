@@ -6,7 +6,8 @@
 <div class="order-details">
     <h2>Transaction ID: @Model.TransactionID</h2>
     <p><strong>Date:</strong> @Model.Date?.ToString("yyyy-MM-dd")</p>
-    <p><strong>Customer:</strong> @Model.Customer?.FirstName @Model.Customer?.LastName</p>
+@*     <p><strong>Customer:</strong> @Model.Customer?.FirstName @Model.Customer?.LastName</p> *@
+    <p><strong>User ID:</strong> @Model.UserId</p>
     <p><strong>Country of Transaction:</strong> @Model.CountryOfTransaction</p>
     <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
     <p><strong>Amount:</strong> @Model.Amount.ToString("C")</p>
