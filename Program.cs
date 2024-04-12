@@ -26,7 +26,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<Customer>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequiredLength = 9; // Minimum length of the password
+    options.Password.RequireDigit = true; // Requires at least one digit
+    options.Password.RequireUppercase = true; // Requires at least one uppercase letter
+    options.Password.RequireLowercase = true; // Requires at least one lowercase letter
+    options.Password.RequireNonAlphanumeric = true; // Requires at least one non alphanumeric character
+    options.Password.RequiredUniqueChars = 4; // Requires a number of unique characters
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
