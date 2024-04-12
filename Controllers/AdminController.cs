@@ -261,15 +261,15 @@ public class AdminController : Controller
         var order = await _context.Orders
                                   .Include(o => o.Customer)
                                   .Include(o => o.LineItems)
+                                      .ThenInclude(li => li.Product)
                                   .FirstOrDefaultAsync(o => o.TransactionID == id);
-
         if (order == null)
         {
             return NotFound();
         }
-
         return View(order);
     }
+
     [HttpPost]
     public async Task<IActionResult> DeleteOrder(int transactionId)
     {

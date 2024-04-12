@@ -24,9 +24,6 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="ProductsList">Products List</a>
                         </li>
                         <li class="nav-item">
@@ -38,9 +35,6 @@
                                 <a class="nav-link text-dark" asp-controller="Home" asp-action="MyOrders">My Orders</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -54,9 +48,17 @@
                             </li>
                         }
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="d-flex align-items-center">
+                        <!-- Use flexbox to vertically center items -->
+                        <div class="me-3">
+                            <!-- Add margin to the right side of the cart icon -->
+                            <a href="@Url.Action("Index", "Cart")">
+                                <img src="~/img/vecteezy_shopping-cart-icon-shopping-basket-on-transparent_19787018.png" alt="Cart" style="width: 40px; height: auto;">
+                            </a>
+                        </div>
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
-            </div>
         </nav>
     </header>
     <div class="container">
@@ -64,7 +66,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - AzureAppINTEX - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

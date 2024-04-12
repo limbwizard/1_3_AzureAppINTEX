@@ -1,11 +1,8 @@
 ﻿@model AzureAppINTEX.Models.Order
-
 @{
     ViewData["Title"] = "Order Details";
 }
-
 <h1>Order Details</h1>
-
 <div class="order-details">
     <h2>Transaction ID: @Model.TransactionID</h2>
     <p><strong>Date:</strong> @Model.Date?.ToString("yyyy-MM-dd")</p>
@@ -16,9 +13,8 @@
     <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
     <p><strong>Bank:</strong> @Model.Bank</p>
     <p><strong>Type of Card:</strong> @Model.TypeOfCard</p>
-    <p><strong>Fraudulent:</strong> @Model.Fraud == 1 ? "Yes" : "No"</p>
+    <p><strong>Fraudulent:</strong> @(Model.Fraud == 1 ? "Yes" : "No")</p>
 </div>
-
 @if (Model.LineItems != null && Model.LineItems.Any())
 {
     <div class="line-items">
@@ -38,8 +34,8 @@
                     <tr>
                         <td>@item.Product?.Name</td>
                         <td>@item.Quantity</td>
-                        <td>@item.Product?.Price.ToString("C")</td>
-                        <td>@((item.Quantity ?? 0) * (item.Product?.Price ?? 0)).ToString("C")</td>
+                        <td>@(item.Product != null ? item.Product.Price.ToString("C") : "N/A")</td>
+                        <td>@(((item.Quantity ?? 0) * (item.Product != null ? item.Product.Price : 0)).ToString("C"))</td>
                     </tr>
                 }
             </tbody>
@@ -50,5 +46,4 @@ else
 {
     <p>No items found for this order.</p>
 }
-
 <a href="@Url.Action("ViewOrders", "Admin")" class="btn btn-primary">Back to Orders</a>

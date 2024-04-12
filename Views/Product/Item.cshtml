@@ -1,9 +1,163 @@
 ﻿@model AzureAppINTEX.Models.ViewModels.ProductDetailsViewModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    /* Existing styles... */
+    /* Style for the description container to allow scrolling */
+    .product-description {
+        max-height: 200px; /* Adjust the height as needed */
+        overflow-y: auto; /* Enables vertical scrolling */
+        margin-bottom: 1rem;
+        border: 1px solid #CED4DA; /* Optional border */
+        padding: 10px;
+        border-radius: 5px; /* Rounded corners */
+    }
+    /* Adjustments for the main Add to Cart button */
+    .btn-outline-secondary {
+        padding: 10px 20px; /* Larger padding for bigger button */
+        font-size: 1rem; /* Larger font size */
+    }
+    /* Style for the scrollable row of related products */
+    .related-products-container {
+        display: flex;
+        overflow-x: auto; /* Enables horizontal scrolling */
+        padding-bottom: 20px; /* Optional: adds some space at the bottom */
+    }
 
+    .related-product-card {
+        flex: 0 0 auto; /* Prevents cards from shrinking */
+        margin-right: 20px; /* Space between cards */
+    }
+        /* New style for consistent card heights */
+        .related-product-card .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ensure cards are fully stretched */
+        }
+
+        .related-product-card img {
+            height: 225px; /* Fixed height for images */
+            width: 200px;
+            object-fit: cover; /* Ensure images cover the area nicely */
+        }
+
+    .card-body {
+        flex-grow: 1; /* Allow card body to fill available space */
+        display: flex;
+        flex-direction: column;
+    }
+    /* Modern scrollbar styling */
+    .related-products-container::-webkit-scrollbar {
+        height: 8px; /* Height of the scrollbar */
+    }
+
+    .related-products-container::-webkit-scrollbar-track {
+        background: #F1F1F1; /* Track color */
+    }
+
+    .related-products-container::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+    }
+
+        .related-products-container::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Thumb hover color */
+        }
+    /* Spacing between buttons */
+    .btn-group .btn-outline-secondary {
+        margin-right: 20px; /* Add space to the right of the 'View' button */
+    }
+    /* Adjust button size for a better look */
+    .btn-sm.btn-outline-secondary {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+    /* Other existing styles remain unchanged... */
+    /* Fixed width and height for the related product cards */
+    .related-product-card {
+        flex: 0 0 220px; /* Fixed width for all cards */
+        margin-right: 20px; /* Space between cards */
+        display: flex;
+        flex-direction: column;
+    }
+
+        .related-product-card .card {
+            height: 350px; /* Fixed height to accommodate longer product names */
+        }
+
+        .related-product-card img {
+            height: 225px; /* Fixed height for images */
+            object-fit: cover; /* Ensure images cover the area nicely */
+        }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Distribute space between content and buttons */
+    }
+
+    .card-text {
+        font-size: 0.9rem; /* Adjust font size if necessary for better fit */
+        overflow: hidden; /* Hide overflow */
+        text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Show max 2 lines */
+        -webkit-box-orient: vertical;
+    }
+    /* Improved "View" button styling */
+    .btn-group .btn-outline-secondary {
+        margin-right: 10px; /* Adjusted space to the right of the 'View' button */
+        white-space: nowrap; /* Prevent the button text from wrapping */
+        overflow: visible; /* Ensure the button text is fully visible */
+    }
+    /* Adjustments for the "View" and "Add to Cart" buttons for a uniform appearance */
+    .btn-group .btn-sm.btn-outline-secondary {
+        padding: 6px 12px; /* Larger padding for a more prominent button */
+        font-size: 0.875rem; /* Font size adjustment for readability */
+        border-radius: 0.2rem; /* Slightly round the button edges */
+    }
+
+    .related-product-card .card img {
+        width: 100%; /* Full width to ensure no space on the sides */
+        height: 225px; /* Maintain aspect ratio */
+        object-fit: cover; /* Cover the area fully */
+    }
+    /* Ensure cards have a consistent size and the image covers the area nicely */
+    .related-product-card {
+        width: 220px; /* Fixed width for all cards */
+        overflow: hidden; /* Hide overflow to maintain the aspect ratio of images */
+    }
+
+    .card-body {
+        padding: 0.75rem; /* Adjust padding for consistency */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    /* Adjust the "View" button to prevent it from being cut off */
+    .btn-group .btn-outline-secondary {
+        margin: 0 5px 5px 0; /* Adjust margins to ensure buttons do not overlap or get cut off */
+        padding: 0.375rem 0.75rem; /* Adjust padding to ensure text fits within the button */
+        font-size: 0.875rem; /* Adjust font size for better fit */
+    }
+
+    .btn-group {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping of buttons to a new line */
+        gap: 10px; /* Space between buttons */
+    }
+        /* Fixing button cut-off and ensuring adequate spacing */
+        .btn-group .btn-sm.btn-outline-secondary {
+            margin-right: 10px; /* Ensure there's enough space on the right side */
+            white-space: nowrap; /* Prevent the text from wrapping */
+        }
+        /* Ensuring the "View" button is not cut off */
+        .btn-group a.btn-outline-secondary {
+            padding-right: 12px; /* Adjust padding to ensure the text does not get cut off */
+        }
+</style>
 @{
     ViewData["Title"] = "Product Details";
 }
-
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
@@ -12,33 +166,41 @@
         <div class="col-md-6">
             <h2>@Model.Product.Name</h2>
             <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
-            <p><strong>Description:</strong> @Model.Product.Description</p>
+            <div class="product-description">
+                <strong>Description:</strong> @Model.Product.Description
+            </div>
             <p><strong>Number of Parts:</strong> @Model.Product.NumParts</p>
             <p><strong>Year:</strong> @Model.Product.Year</p>
             <p><strong>Category:</strong> @Model.Product.Category</p>
             <p><strong>Primary Color:</strong> @Model.Product.PrimaryColor</p>
-            <button type="button" class="btn btn-primary">Add to Cart</button>
+            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                <input type="hidden" name="productId" value="@Model.Product.ProductID" />
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                <button type="button" class="btn btn-outline-secondary add-to-cart" data-product-id="@Model.Product.ProductID">Add to Cart</button>
+            </form>
         </div>
     </div>
     @if (Model.RelatedProducts.Any())
     {
         <div class="container mt-5">
-            <h3>If you like this, you may also like...</h3>
-            <div class="row">
+            <h3>If you like this product, you may also like...</h3>
+            <div class="related-products-container">
                 @foreach (var relatedProduct in Model.RelatedProducts)
                 {
-                    <div class="col-md-4">
+                    <div class="related-product-card">
                         <div class="card mb-4 shadow-sm">
                             <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@relatedProduct.ImgLink" alt="@relatedProduct.Name">
                             <div class="card-body">
-                                <p class="card-text">@relatedProduct.Name - @relatedProduct.Price.ToString("C")</p>
+                                <p class="card-text">
+                                    <!-- Making product name clickable -->
+                                    <a href="@Url.Action("Item", "Product", new { id = relatedProduct.ProductID })">@relatedProduct.Name</a> - @relatedProduct.Price.ToString("C")
+                                </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="@Url.Action("Item", "Product", new { id = relatedProduct.ProductID })" class="btn btn-sm btn-outline-secondary">View</a>
                                         <form asp-controller="Cart" asp-action="AddToCart" method="post">
                                             <input type="hidden" name="productId" value="@relatedProduct.ProductID" />
                                             <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary add-to-cart" data-product-id="@relatedProduct.ProductID">Add to Cart</button>
                                         </form>
                                     </div>
                                 </div>
@@ -49,6 +211,28 @@
             </div>
         </div>
     }
-
-    @* The related products display logic as provided above *@
 </div>
+<script>
+    $(document).ready(function () {
+        // Ensuring form submission is prevented
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+        });
+        // Handling the 'Add to Cart' click event
+        $('.add-to-cart').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).data('product-id');
+            $.ajax({
+                url: '@Url.Action("AddToCart", "Cart")',
+                type: 'POST',
+                data: { productId: productId },
+                success: function (result) {
+                    alert(result.responseText);
+                },
+                error: function () {
+                    alert("There was an error processing your request.");
+                }
+            });
+        });
+    });
+</script>

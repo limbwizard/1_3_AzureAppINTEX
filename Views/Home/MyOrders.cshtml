@@ -1,35 +1,37 @@
 ﻿@model AzureAppINTEX.Models.ViewModels.CustomerOrdersViewModel
-
 @{
     ViewData["Title"] = "My Orders";
 }
-
 <h1>@ViewData["Title"]</h1>
-
 @if (Model.Orders.Any())
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Transaction ID</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <!-- Add more columns as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model.Orders)
-            {
+    foreach (var order in Model.Orders)
+    {
+        <h3>Transaction ID: @order.TransactionID</h3>
+        <p>Date: @order.Date?.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        <p>Total Amount: $@order.Amount</p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@order.TransactionID</td>
-                    <td>@order.Date</td>
-                    <td>$@order.Amount</td>
-                    <!-- Add more columns as needed -->
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+                @foreach (var item in order.LineItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>$@item.Price</td>
+                        <td>$@item.Total</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
     <div class="button-container">
         <a asp-controller="Home" asp-action="ProductsList" class="btn btn-primary">Continue Shopping</a>
     </div>
