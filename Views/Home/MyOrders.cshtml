@@ -2,6 +2,31 @@
 @{
     ViewData["Title"] = "My Orders";
 }
+
+<style>
+    <style >
+    .table {
+        width: 100%;
+        table-layout: fixed; /* This helps in applying fixed widths */
+    }
+
+    .table th, .table td {
+        text-align: left; /* Adjust text alignment as needed */
+    }
+
+    .table th.quantity, .table th.price, .table th.total,
+    .table td.quantity, .table td.price, .table td.total {
+        width: 100px; /* Fixed width for the last three columns */
+        text-align: right; /* Align text to the right for these columns */
+    }
+
+    .table th.product-name, .table td.product-name {
+        width: auto; /* Allows the product name column to take up remaining space */
+    }
+</style>
+
+</style>
+
 <h1>@ViewData["Title"]</h1>
 @if (Model.Orders.Any())
 {
@@ -13,20 +38,20 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
+                    <th class="product-name">Product Name</th>
+                    <th class="quantity">Quantity</th>
+                    <th class="price">Price</th>
+                    <th class="total">Total</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in order.LineItems)
                 {
                     <tr>
-                        <td>@item.ProductName</td>
-                        <td>@item.Quantity</td>
-                        <td>$@item.Price</td>
-                        <td>$@item.Total</td>
+                        <td class="product-name">@item.ProductName</td>
+                        <td class="quantity">@item.Quantity</td>
+                        <td class="price">$@item.Price</td>
+                        <td class="total">$@item.Total</td>
                     </tr>
                 }
             </tbody>
