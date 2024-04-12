@@ -89,6 +89,27 @@ else
     app.UseHsts();
 }
 
+
+// Content Security Policy Middleware
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy",
+                                 "default-src *; " + // Allow everything from all origins
+                                 "script-src * 'unsafe-inline' 'unsafe-eval'; " + // Allow all scripts, including inline and eval
+                                 "style-src * 'unsafe-inline'; " + // Allow all styles, including inline styles
+                                 "img-src * data:; " + // Allow all images from any origin plus data URIs
+                                 "connect-src *; " + // Allow connections to all URLs
+                                 "font-src *; " + // Allow all fonts from any origin
+                                 "object-src *; " + // Allow all object sources
+                                 "frame-src *;"); // Allow all iframes
+    await next.Invoke();
+});
+
+
+
+
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
