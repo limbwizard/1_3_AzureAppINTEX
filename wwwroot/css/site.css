@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap');
+
 html {
   font-size: 14px;
 }
@@ -123,4 +125,8 @@ body {
 #delete.btn.btn-danger {
     margin-top:10px;
     background-color: indianred
+}
+
+body {
+    font-family: 'Jost', sans-serif;
 }
