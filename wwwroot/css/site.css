@@ -81,3 +81,46 @@ a:hover {
 body {
     padding-top: 90px; /* Adjust this value based on the actual height of your navbar */
 }
+
+.nav-link {
+    color: #C36813;
+    /* Other styling properties */
+}
+
+.nav-link:hover {
+    color: #D47A2E; /* Darker shade of orange for hover */
+    background-color: #f5f5f5; /* Optional: some background color on hover */
+    text-decoration: none; /* Optional: removes underline on hover */
+}
+
+
+#profile.nav-link.active {
+    background-color: #C36813; /* Change the background color */
+    color: #ffffff; /* Optionally change the text color for better visibility */
+}
+
+#email.nav-link.active {
+    background-color: #C36813; /* Change the background color */
+    color: #ffffff; /* Optionally change the text color for better visibility */
+}
+#change-password.nav-link.active {
+    background-color: #C36813; /* Change the background color */
+    color: #ffffff; /* Optionally change the text color for better visibility */
+}
+#external-login.nav-link.active {
+    background-color: #C36813; /* Change the background color */
+    color: #ffffff; /* Optionally change the text color for better visibility */
+}
+#two-factor.nav-link.active {
+    background-color: #C36813; /* Change the background color */
+    color: #ffffff; /* Optionally change the text color for better visibility */
+}
+#personal-data.nav-link.active {
+    background-color: #C36813; /* Change the background color */
+    color: #ffffff; /* Optionally change the text color for better visibility */
+}
+
+#delete.btn.btn-danger {
+    margin-top:10px;
+    background-color: indianred
+}
